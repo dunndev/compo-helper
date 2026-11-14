@@ -1,5 +1,5 @@
 // Service Worker for CompoHelper English
-const CACHE_NAME = 'compo-helper-v2.1';
+const CACHE_NAME = 'compo-helper-v2.2';
 const ASSETS = [
   './',
   './index.html',

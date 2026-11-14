@@ -53,7 +53,7 @@
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 0.75rem 1.25rem;
+      padding: 0.65rem 1.25rem;
       position: sticky;
       top: 0;
       z-index: 50;
@@ -61,6 +61,8 @@
       justify-content: space-between;
       align-items: center;
       box-shadow: var(--shadow);
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
     .brand {
       display: flex;
@@ -81,15 +83,57 @@
       justify-content: center;
     }
     .brand-title {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
       letter-spacing: -0.02em;
     }
     .brand-subtitle {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--primary-light);
       font-weight: 500;
     }
+
+    /* Header Gamification Widget */
+    .header-stats {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+    }
+    .streak-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #f97316;
+    }
+    .rank-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fcd34d;
+    }
+    .xp-meter-mini {
+      width: 70px;
+      height: 6px;
+      background: var(--border);
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-left: 0.2rem;
+    }
+    .xp-meter-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #f59e0b, #10b981);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
     .nav-actions {
       display: flex;
       align-items: center;
@@ -220,6 +264,100 @@
       background: var(--info-surface);
       border-left-color: var(--info);
       color: #a5f3fc;
+    }
+
+    /* Gamification Rank Hero Card */
+    .rank-hero {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+    .rank-info-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .rank-icon-big {
+      font-size: 2.5rem;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .rank-details {
+      display: flex;
+      flex-direction: column;
+    }
+    .rank-title-text {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fcd34d;
+      letter-spacing: -0.01em;
+    }
+    .rank-sub-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .rank-progress-wrap {
+      min-width: 200px;
+      flex: 1;
+      max-width: 320px;
+    }
+    .rank-xp-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin-bottom: 0.3rem;
+    }
+    .rank-xp-bar-container {
+      width: 100%;
+      height: 10px;
+      background: var(--surface-card);
+      border-radius: 9999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .rank-xp-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #f59e0b, #10b981);
+      transition: width 0.4s ease;
+    }
+
+    /* Floating XP Toast */
+    .xp-toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #10b981;
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 9999px;
+      font-weight: 800;
+      font-size: 1.1rem;
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
+      animation: toastFloat 1.8s ease-in-out forwards;
+      pointer-events: none;
+    }
+    @keyframes toastFloat {
+      0% { opacity: 0; transform: translateY(20px); }
+      15% { opacity: 1; transform: translateY(0); }
+      80% { opacity: 1; transform: translateY(-5px); }
+      100% { opacity: 0; transform: translateY(-20px); }
     }
 
     /* Progress bar */
@@ -426,11 +564,6 @@
       border-color: var(--primary);
       background: var(--surface-hover);
     }
-    .chip-active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary-light);
-    }
 
     /* Modal */
     .modal-backdrop {
@@ -474,12 +607,14 @@
       .btn-lg { width: 100%; }
       .leitner-grid { grid-template-columns: repeat(3, 1fr); }
       .rating-grid { display: flex; flex-direction: column; width: 100%; gap: 0.5rem; }
+      .rank-hero { flex-direction: column; align-items: stretch; }
+      .rank-progress-wrap { max-width: 100%; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation Header -->
+  <!-- Navigation Header with Gamification Bar -->
   <header>
     <a class="brand" onclick="UI.showView('dashboard')">
       <div class="brand-icon">✍️</div>
@@ -488,6 +623,17 @@
         <div class="brand-subtitle">80/20 Upper Primary Routine (P5)</div>
       </div>
     </a>
+
+    <!-- Header Stats Widget (Rank, XP, Streak) -->
+    <div class="header-stats" id="header-gamification-widget" title="Writer Rank & Daily Practice Streak">
+      <div class="streak-badge" id="hdr-streak">🔥 0</div>
+      <div style="width: 1px; height: 16px; background: var(--border);"></div>
+      <div class="rank-pill" id="hdr-rank">🥉 Scribe</div>
+      <div class="xp-meter-mini" title="XP Progress to Next Rank">
+        <div class="xp-meter-fill" id="hdr-xp-fill" style="width: 20%;"></div>
+      </div>
+    </div>
+
     <div class="nav-actions">
       <button class="btn btn-secondary btn-sm" onclick="UI.showView('phrase_bank')" title="Phrase Bank">📚 Phrases</button>
       <button class="btn btn-secondary btn-sm" onclick="UI.showView('manager')" title="Manage Content & Backups">⚙️ Data</button>
@@ -500,6 +646,28 @@
 
     <!-- VIEW 1: DASHBOARD -->
     <section id="view-dashboard" class="view">
+      
+      <!-- Gamification Hero Card -->
+      <div class="rank-hero">
+        <div class="rank-info-left">
+          <div class="rank-icon-big" id="dash-rank-icon">🥉</div>
+          <div class="rank-details">
+            <div class="rank-title-text" id="dash-rank-title">Apprentice Scribe</div>
+            <div class="rank-sub-text" id="dash-rank-sub">Level 1 • 0 Total XP</div>
+          </div>
+        </div>
+
+        <div class="rank-progress-wrap">
+          <div class="rank-xp-label">
+            <span id="dash-xp-progress-text">0 / 250 XP</span>
+            <span id="dash-streak-status">🔥 0-Day Streak</span>
+          </div>
+          <div class="rank-xp-bar-container">
+            <div class="rank-xp-bar-fill" id="dash-xp-bar-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+
       <div class="card">
         <div class="card-header">
           <div>
@@ -609,21 +777,21 @@
             <div id="s1-antipattern-text">--</div>
           </div>
 
-          <!-- Self-Grading Buttons -->
+          <!-- Self-Grading Buttons with XP rewards -->
           <div class="mt-3">
             <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem; text-align: center;">How effectively did you develop or evaluate this scene?</div>
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;" class="rating-grid">
               <button class="btn btn-danger btn-lg" onclick="UI.gradeCurrentCard(1)">
                 <span>[1] Again</span>
-                <span style="font-size: 0.75rem; opacity: 0.85;">(1 day)</span>
+                <span style="font-size: 0.75rem; opacity: 0.85;">(1d • +10 XP)</span>
               </button>
               <button class="btn btn-primary btn-lg" onclick="UI.gradeCurrentCard(2)">
                 <span>[2] Good</span>
-                <span style="font-size: 0.75rem; opacity: 0.85;">(3 days)</span>
+                <span style="font-size: 0.75rem; opacity: 0.85;">(3d • +10 XP)</span>
               </button>
               <button class="btn btn-success btn-lg" onclick="UI.gradeCurrentCard(3)">
                 <span>[3] Easy</span>
-                <span style="font-size: 0.75rem; opacity: 0.85;">(7+ days)</span>
+                <span style="font-size: 0.75rem; opacity: 0.85;">(7+d • +15 XP)</span>
               </button>
             </div>
           </div>
@@ -694,7 +862,7 @@
         <div class="mt-3">
           <div class="flex-between">
             <h3 style="font-size: 1.05rem; font-weight: 700;">Step 2: Elaborate the Pivotal Turning Point (3 mins)</h3>
-            <span class="badge badge-primary">3–4 Sentences</span>
+            <span class="badge badge-primary">3–4 Sentences • +50 XP</span>
           </div>
 
           <div class="alert-box alert-info mt-1">
@@ -715,7 +883,7 @@
         </div>
 
         <div class="mt-3 text-center">
-          <button class="btn btn-success btn-lg" onclick="UI.completeSession()">✔ Complete 15-Minute Daily Routine</button>
+          <button class="btn btn-success btn-lg" onclick="UI.completeSession()">✔ Complete Routine (+100 XP Bonus)</button>
         </div>
 
       </div>
@@ -723,15 +891,29 @@
 
     <!-- VIEW 4: SUMMARY & REST SCREEN -->
     <section id="view-summary" class="view hidden">
-      <div class="card text-center" style="padding: 2.5rem 1.5rem;">
-        <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🎉</div>
-        <h2 style="font-size: 1.8rem; font-weight: 800;">15-Minute Practice Complete!</h2>
-        <p class="text-muted" style="font-size: 1.05rem; max-width: 500px; margin: 0.5rem auto 1.5rem;">
-          Great focus today! Spaced recall strengthens memory consolidation during rest. 
-        </p>
+      <div class="card text-center" style="padding: 2rem 1.5rem;">
+        <div style="font-size: 3.5rem; margin-bottom: 0.25rem;" id="summary-avatar-icon">🎉</div>
+        <h2 style="font-size: 1.8rem; font-weight: 800;" id="summary-headline">15-Minute Practice Complete!</h2>
+        
+        <!-- Gamification Earned Summary Banner -->
+        <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: var(--radius); padding: 1rem 1.25rem; max-width: 600px; margin: 1rem auto; text-align: left;">
+          <div class="flex-between flex-wrap">
+            <div>
+              <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 800; color: #fbbf24;">Session Rewards</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #fcd34d;" id="summary-xp-earned">+0 XP Earned</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 800; color: #f97316;">Daily Streak</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #fdba74;" id="summary-streak-earned">🔥 1 Day</div>
+            </div>
+          </div>
+          <div class="mt-1" style="font-size: 0.85rem; color: #cbd5e1;" id="summary-rank-status">
+            Current Rank: 🥉 Apprentice Scribe
+          </div>
+        </div>
 
         <!-- Session Statistics Card -->
-        <div style="background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; max-width: 600px; margin: 0 auto 1.5rem; text-align: left;">
+        <div style="background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; max-width: 600px; margin: 0 auto 1.25rem; text-align: left;">
           <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--primary-light); margin-bottom: 0.75rem;">Today's Session Plan Card</h4>
           <div id="summary-plan-output" style="white-space: pre-wrap; font-size: 0.95rem; line-height: 1.7; color: #e2e8f0; background: rgba(0,0,0,0.25); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05);">
             <!-- Plan formatted text -->
@@ -743,8 +925,8 @@
         </div>
 
         <div class="alert-box alert-warning" style="max-width: 600px; margin: 0 auto 1.5rem; text-align: left;">
-          <div class="alert-title">🔒 Rest Circuit Breaker Active</div>
-          <div>To prevent cognitive fatigue and ensure deep neural consolidation, further drills are locked for today. Keep reading widely!</div>
+          <div class="alert-title">🔒 Daily Rest Active</div>
+          <div>Daily mission completed! Deep memory consolidation occurs while resting. Take a break and read widely!</div>
         </div>
 
         <div>
@@ -801,7 +983,7 @@
         <div style="background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem;">
           <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--primary-light);">1-Click Full Database Backup & Cross-Device Sync</h3>
           <p class="text-muted" style="font-size: 0.85rem; margin: 0.35rem 0 0.85rem;">
-            Export a single <code>.json</code> file to transfer all cards, schedules, and logs between your PC and Android device.
+            Export a single <code>.json</code> file to transfer all cards, schedules, XP, and logs between your PC and Android device.
           </p>
           <div class="flex-row flex-wrap" style="gap: 0.75rem;">
             <button class="btn btn-primary" onclick="DB.exportBackupJSON()">💾 Download JSON Backup</button>
@@ -922,7 +1104,10 @@
       daily_new_limit: 2,
       voice_rate: 0.9,
       voice_lang: 'en-SG',
-      audio_enabled: true
+      audio_enabled: true,
+      total_xp: 0,
+      current_streak: 0,
+      last_streak_date: null
     };
 
     const SEED_STRATEGIES = [
@@ -1715,24 +1900,43 @@
         };
       },
 
+      /**
+       * Deterministic Daily Queue Builder
+       * Fixes counter loop bug by checking today's completed session & new-card quota
+       */
       async buildDailyQueue(config) {
         const today = new Date().toISOString().split('T')[0];
         const allStrategies = await DB.getAll('strategies');
+        const sessionLogs = await DB.getAll('session_logs');
+        
+        // 1. If today's session has already been completed, queue is 0!
+        const todayLog = sessionLogs.find(l => l.date === today && l.completed);
+        if (todayLog) {
+          return [];
+        }
 
-        // Due cards: due_date <= today AND total_reviews > 0
-        const dueCards = allStrategies.filter(c => c.total_reviews > 0 && c.due_date <= today);
-        // Sort due cards: lowest box first, then highest lapses
+        // 2. Count new cards already introduced today
+        const newIntroducedToday = allStrategies.filter(c => c.last_reviewed === today && c.total_reviews === 1).length;
+        const newLimit = config.daily_new_limit || 2;
+        const remainingNewQuota = Math.max(0, newLimit - newIntroducedToday);
+
+        // 3. Due cards: due_date <= today AND total_reviews > 0 AND NOT already reviewed today
+        const dueCards = allStrategies.filter(c => c.total_reviews > 0 && c.due_date <= today && c.last_reviewed !== today);
         dueCards.sort((a, b) => (a.srs_box - b.srs_box) || (b.lapses - a.lapses));
 
         const reviewLimit = config.daily_review_limit || 10;
         const selectedDue = dueCards.slice(0, reviewLimit);
 
-        // New cards: total_reviews === 0
+        // 4. Initial deck check: If brand new (0 total reviews across all cards), seed a 6-card starter cohort
+        const totalDeckReviews = allStrategies.reduce((acc, c) => acc + (c.total_reviews || 0), 0);
         let selectedNew = [];
-        const newLimit = config.daily_new_limit || 2;
-        if (selectedDue.length < reviewLimit) {
-          const newCards = allStrategies.filter(c => c.total_reviews === 0);
-          selectedNew = newCards.slice(0, newLimit);
+
+        if (totalDeckReviews === 0) {
+          // Onboarding Day 1 cohort: 6 balanced cards
+          selectedNew = allStrategies.slice(0, 6);
+        } else if (remainingNewQuota > 0 && selectedDue.length < reviewLimit) {
+          const unreviewed = allStrategies.filter(c => c.total_reviews === 0);
+          selectedNew = unreviewed.slice(0, remainingNewQuota);
         }
 
         return [...selectedDue, ...selectedNew];
@@ -2105,13 +2309,70 @@
         s2CountdownSeconds: 300,
         s2TimerInterval: null,
         selectedPrompt: null,
-        ratingsLog: { 1: 0, 2: 0, 3: 0 }
+        ratingsLog: { 1: 0, 2: 0, 3: 0 },
+        sessionXpEarned: 0
+      },
+
+      /**
+       * Gamification Ranks Calculation
+       */
+      getRank(xp) {
+        xp = xp || 0;
+        const tiers = [
+          { level: 1, title: 'Apprentice Scribe', icon: '🥉', min: 0, max: 250 },
+          { level: 2, title: 'Word Crafter', icon: '🥈', min: 250, max: 600 },
+          { level: 3, title: 'Scene Builder', icon: '🥇', min: 600, max: 1200 },
+          { level: 4, title: 'Plot Architect', icon: '💎', min: 1200, max: 2400 },
+          { level: 5, title: 'Master Storyteller', icon: '👑', min: 2400, max: 5000 }
+        ];
+
+        for (let i = 0; i < tiers.length; i++) {
+          const t = tiers[i];
+          if (xp < t.max || i === tiers.length - 1) {
+            const span = t.max - t.min;
+            const currentInTier = Math.max(0, xp - t.min);
+            const percent = Math.min(100, Math.round((currentInTier / span) * 100));
+            return {
+              level: t.level,
+              title: t.title,
+              icon: t.icon,
+              xp,
+              min: t.min,
+              max: t.max,
+              needed: Math.max(0, t.max - xp),
+              percent
+            };
+          }
+        }
+      },
+
+      triggerXpToast(amount) {
+        const toast = document.createElement('div');
+        toast.className = 'xp-toast';
+        toast.textContent = `+${amount} XP! ⭐`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 1800);
+      },
+
+      updateGamificationHeader() {
+        const rank = this.getRank(this.config.total_xp);
+        const streak = this.config.current_streak || 0;
+
+        const hdrStreak = document.getElementById('hdr-streak');
+        const hdrRank = document.getElementById('hdr-rank');
+        const hdrXpFill = document.getElementById('hdr-xp-fill');
+
+        if (hdrStreak) hdrStreak.textContent = `🔥 ${streak}`;
+        if (hdrRank) hdrRank.textContent = `${rank.icon} Lv.${rank.level}`;
+        if (hdrXpFill) hdrXpFill.style.width = `${rank.percent}%`;
       },
 
       async init() {
-        this.config = (await DB.get('config', 'settings')) || DEFAULT_CONFIG;
+        const savedConfig = await DB.get('config', 'settings');
+        this.config = { ...DEFAULT_CONFIG, ...(savedConfig || {}) };
         TTS.init();
         this.setupKeyboardListeners();
+        this.updateGamificationHeader();
         this.renderDashboard();
       },
 
@@ -2122,6 +2383,7 @@
           target.classList.remove('hidden');
           window.scrollTo(0, 0);
         }
+        this.updateGamificationHeader();
         if (viewName === 'dashboard') {
           this.renderDashboard();
         } else if (viewName === 'phrase_bank') {
@@ -2132,6 +2394,8 @@
       },
 
       async renderDashboard() {
+        this.updateGamificationHeader();
+
         // Exam Days calculation
         const examDate = new Date(this.config.exam_date || '2027-09-25');
         const today = new Date();
@@ -2141,20 +2405,40 @@
           badge.textContent = `Target Exam: ${diffDays > 0 ? diffDays + ' days left' : 'Past date'}`;
         }
 
+        // Gamification Hero Card Update
+        const rank = this.getRank(this.config.total_xp);
+        const streak = this.config.current_streak || 0;
+
+        document.getElementById('dash-rank-icon').textContent = rank.icon;
+        document.getElementById('dash-rank-title').textContent = rank.title;
+        document.getElementById('dash-rank-sub').textContent = `Level ${rank.level} • ${rank.xp} Total XP`;
+        document.getElementById('dash-xp-progress-text').textContent = `${rank.xp} / ${rank.max} XP`;
+        document.getElementById('dash-streak-status').textContent = `🔥 ${streak}-Day Streak`;
+        document.getElementById('dash-xp-bar-fill').style.width = `${rank.percent}%`;
+
+        // Check if today's session has already been completed
+        const todayStr = new Date().toISOString().split('T')[0];
+        const sessionLogs = await DB.getAll('session_logs');
+        const todayLog = sessionLogs.find(l => l.date === todayStr && l.completed);
+
         // Daily Queue count
         const queue = await SRS.buildDailyQueue(this.config);
         const queueSummary = document.getElementById('dash-queue-summary');
         const queueDetail = document.getElementById('dash-queue-detail');
-        if (queueSummary) {
-          if (queue.length === 0) {
-            queueSummary.textContent = 'All Caught Up! 🎉';
-            queueDetail.textContent = 'Great job. 15 minutes of spaced recall complete for today.';
-            document.getElementById('btn-start-session').textContent = '▶ Review Deck Anyway';
-          } else {
-            queueSummary.textContent = `${queue.length} Active Cards Due`;
-            queueDetail.textContent = '10 Mins Micro-Drills (Internal Dilemmas & Critique) + 5 Mins Macro Plotting';
-            document.getElementById('btn-start-session').textContent = '▶ Start 15-Min Routine';
-          }
+        const startBtn = document.getElementById('btn-start-session');
+
+        if (todayLog) {
+          queueSummary.textContent = "Today's Mission Complete! 🎉";
+          queueDetail.textContent = "Great job! 15 minutes of spaced recall done. Memory consolidates during rest.";
+          startBtn.textContent = '▶ Practice More (Bonus Mode)';
+        } else if (queue.length === 0) {
+          queueSummary.textContent = 'All Caught Up! 🎉';
+          queueDetail.textContent = '0 cards due today. Your memory is fully consolidated.';
+          startBtn.textContent = '▶ Review Deck (Practice Mode)';
+        } else {
+          queueSummary.textContent = `${queue.length} Active Cards Due`;
+          queueDetail.textContent = '10 Mins Micro-Drills (Internal Dilemmas & Critique) + 5 Mins Macro Plotting';
+          startBtn.textContent = '▶ Start 15-Min Routine';
         }
 
         // Leitner Boxes Distribution
@@ -2205,9 +2489,9 @@
       async startDailySession() {
         let queue = await SRS.buildDailyQueue(this.config);
         if (queue.length === 0) {
-          // If no cards due, offer unconstrained review of first 8 cards
+          // If queue is 0 (already completed or caught up), offer an unconstrained bonus batch
           const all = await DB.getAll('strategies');
-          queue = all.slice(0, 8);
+          queue = all.slice(0, 6);
         }
 
         this.session.active = true;
@@ -2216,6 +2500,7 @@
         this.session.currentIndex = 0;
         this.session.ratingsLog = { 1: 0, 2: 0, 3: 0 };
         this.session.elapsedSeconds = 0;
+        this.session.sessionXpEarned = 0;
 
         clearInterval(this.session.timerInterval);
         this.session.timerInterval = setInterval(() => {
@@ -2337,6 +2622,13 @@
         const card = this.session.currentCard;
         this.session.ratingsLog[rating] = (this.session.ratingsLog[rating] || 0) + 1;
 
+        // Gamification XP per card (+10 base, +15 for Level 4 Critique)
+        const cardXp = (card.scaffolding_level === 'LEVEL_4_EVALUATE') ? 15 : 10;
+        this.session.sessionXpEarned += cardXp;
+        this.config.total_xp = (this.config.total_xp || 0) + cardXp;
+        this.triggerXpToast(cardXp);
+        this.updateGamificationHeader();
+
         // Compute Leitner advancement
         const sched = SRS.calculateNextSchedule(card.srs_box, rating, this.config.exam_date);
         card.srs_box = sched.newBox;
@@ -2347,6 +2639,7 @@
         if (rating === 1) card.lapses = (card.lapses || 0) + 1;
 
         await DB.put('strategies', card);
+        await DB.put('config', { ...this.config, key: 'settings' });
 
         // Next card or transition to Stage 2
         this.session.currentIndex++;
@@ -2364,7 +2657,6 @@
       async startStage2MacroDrill() {
         this.session.stage = 2;
         const prompts = await DB.getAll('prompts');
-        // Pick random prompt
         const prompt = prompts[Math.floor(Math.random() * prompts.length)] || SEED_PROMPTS[0];
         this.session.selectedPrompt = prompt;
 
@@ -2426,7 +2718,7 @@
       },
 
       /**
-       * Complete Routine & Save Session
+       * Complete Routine & Save Session with Streak & Bonus XP
        */
       async completeSession() {
         clearInterval(this.session.s2TimerInterval);
@@ -2434,6 +2726,33 @@
         this.session.stage = 3;
 
         const dateStr = new Date().toISOString().split('T')[0];
+
+        // 1. Streak Calculation
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yestStr = yesterday.toISOString().split('T')[0];
+
+        if (this.config.last_streak_date === yestStr) {
+          this.config.current_streak = (this.config.current_streak || 0) + 1;
+        } else if (this.config.last_streak_date === dateStr) {
+          // Already practiced today, keep streak
+          this.config.current_streak = this.config.current_streak || 1;
+        } else {
+          // Gap occurred, reset streak to 1
+          this.config.current_streak = 1;
+        }
+        this.config.last_streak_date = dateStr;
+
+        // 2. Bonus XP calculation
+        const macroXpBonus = 50;
+        const dailyCompletionBonus = 50;
+        const streakBonus = 5 * Math.min(this.config.current_streak, 7);
+        const totalSessionBonus = macroXpBonus + dailyCompletionBonus + streakBonus;
+
+        this.session.sessionXpEarned += totalSessionBonus;
+        this.config.total_xp = (this.config.total_xp || 0) + totalSessionBonus;
+
+        // 3. Persist Session Log and Config
         const sessionLog = {
           date: dateStr,
           stage1_reviews_completed: this.session.queue.length,
@@ -2446,12 +2765,21 @@
           stage2_slot4_text: document.getElementById('s2-slot4').value,
           stage2_pivotal_scene_text: document.getElementById('s2-scene-draft').value,
           duration_seconds: this.session.elapsedSeconds + (300 - this.session.s2CountdownSeconds),
-          completed: true
+          completed: true,
+          xp_earned: this.session.sessionXpEarned
         };
 
         await DB.put('session_logs', sessionLog);
+        await DB.put('config', { ...this.config, key: 'settings' });
 
-        // Format Composition Plan Card for Summary
+        this.updateGamificationHeader();
+
+        // 4. Update Summary Screen Display
+        const rank = this.getRank(this.config.total_xp);
+        document.getElementById('summary-xp-earned').textContent = `+${this.session.sessionXpEarned} XP Earned! 🌟`;
+        document.getElementById('summary-streak-earned').textContent = `🔥 ${this.config.current_streak} Day Streak`;
+        document.getElementById('summary-rank-status').textContent = `Current Rank: ${rank.icon} Level ${rank.level} • ${rank.title} (${this.config.total_xp} Total XP)`;
+
         const planOutput = document.getElementById('summary-plan-output');
         const planText = 
 `COMPOSITION PLAN CARD: ${sessionLog.stage2_prompt_title}
@@ -2582,7 +2910,6 @@ ${sessionLog.stage2_pivotal_scene_text || '(No drafted scene entered)'}`;
        */
       setupKeyboardListeners() {
         window.addEventListener('keydown', (e) => {
-          // If user is typing in a textarea or input, do not trigger shortcuts
           if (['TEXTAREA', 'INPUT', 'SELECT'].includes(e.target.tagName)) {
             return;
           }

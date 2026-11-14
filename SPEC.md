@@ -191,6 +191,9 @@ erDiagram
         float voice_rate "TTS speech rate (default: 0.9)"
         string voice_lang "Preferred TTS language (en-SG > en-GB > en-US)"
         boolean audio_enabled "Enable/disable Web Speech API"
+        int total_xp "Cumulative learner experience points"
+        int current_streak "Consecutive days practiced"
+        string last_streak_date "ISO YYYY-MM-DD of last practice"
     }
 
     SESSION_LOGS {
@@ -452,13 +455,30 @@ Headers: `id,title,theme,prompt_type,situation_context,default_slot1,default_slo
 - **Box 4:** 14-day interval (Bi-weekly retrieval).
 - **Box 5:** 30-day interval (Long-term mastery).
 
-### 6.2 Exam Date Clamping Logic
-$$\text{Days to Exam} = \max(0, \text{Exam Date} - \text{Today})$$
-$$\text{Effective Interval} = \begin{cases} 
-\text{Interval}, & \text{if } \text{Today} + \text{Interval} < \text{Exam Date} \\ 
-\max(1, \lfloor \text{Days to Exam} \times 0.6 \rfloor), & \text{if } \text{Today} + \text{Interval} \ge \text{Exam Date} 
-\end{cases}$$
-*Guarantee:* Interval compression ensures cards due near the exam date are brought forward for a final refresher.
+### 6.3 Deterministic Queue Capping & Daily Quota Guard
+To prevent infinite queue replenishment loops (the "always 2 active cards" defect):
+1. **Daily Session Check:** If `session_logs[today]?.completed === true`, `buildDailyQueue()` returns `[]` (0 cards due). The dashboard displays *"Today's Mission Complete! 🎉"*.
+2. **New-Card Quota Guard:**
+   $$\text{Introduced Today} = \text{Count}(\text{cards with } \text{last\_reviewed} == \text{today} \text{ and } \text{total\_reviews} == 1)$$
+   $$\text{Remaining New Allowance} = \max(0, \text{daily\_new\_limit} - \text{Introduced Today})$$
+   New unreviewed cards (`total_reviews === 0`) are only appended if $\text{Remaining New Allowance} > 0$.
+3. **Cards Reviewed Today Exclusion:** Any card where `last_reviewed === today` is excluded from today's `dueCards` so completed cards are never recycled into the same day's queue.
+4. **Day 1 Onboarding Batch:** When 0 total reviews exist across the deck, an initial 6-card cohort is scheduled to ensure the first daily routine has full substance.
+
+### 6.4 Gamification Engine (XP, Ranks & Daily Streaks)
+- **XP Earning:**
+  - Micro-drill review (Level 1–3): +10 XP
+  - Micro-drill review (Level 4 Critique): +15 XP
+  - Macro-drill pivotal turning point elaborated: +50 XP
+  - Daily session completion bonus: +50 XP
+  - Streak bonus: $+5 \text{ XP} \times \min(\text{streak\_days}, 7)$
+- **Upper Primary Writer Ranks:**
+  - Level 1: 🥉 *Apprentice Scribe* (0 – 249 XP)
+  - Level 2: 🥈 *Word Crafter* (250 – 599 XP)
+  - Level 3: 🥇 *Scene Builder* (600 – 1,199 XP)
+  - Level 4: 💎 *Plot Architect* (1,200 – 2,399 XP)
+  - Level 5: 👑 *Master Storyteller* (2,400+ XP)
+- **Habit Streak (🔥):** Increments on consecutive days based on `last_streak_date`; resets to 1 if a day is missed. Displayed persistently in header and dashboard.
 
 ---
 
