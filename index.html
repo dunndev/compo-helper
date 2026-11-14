@@ -1,0 +1,2800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CompoHelper English - 80/20 Upper Primary Composition Routine</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e293b">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-card: #273549;
+      --surface-hover: #334155;
+      --border: #334155;
+      --border-light: #475569;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --primary-light: #60a5fa;
+      --accent: #8b5cf6;
+      --success: #10b981;
+      --success-surface: rgba(16, 185, 129, 0.15);
+      --warning: #f59e0b;
+      --warning-surface: rgba(245, 158, 11, 0.15);
+      --danger: #ef4444;
+      --danger-surface: rgba(239, 68, 68, 0.15);
+      --info: #06b6d4;
+      --info-surface: rgba(6, 182, 212, 0.15);
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header Nav */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.25rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-icon {
+      font-size: 1.5rem;
+      background: var(--primary);
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .brand-subtitle {
+      font-size: 0.75rem;
+      color: var(--primary-light);
+      font-weight: 500;
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.65rem 1.1rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease-in-out;
+      text-decoration: none;
+      min-height: 44px;
+      user-select: none;
+    }
+    .btn-sm {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.85rem;
+      min-height: 36px;
+    }
+    .btn-lg {
+      padding: 0.9rem 1.6rem;
+      font-size: 1.1rem;
+      min-height: 52px;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary { background: var(--surface-card); color: var(--text); border-color: var(--border); }
+    .btn-secondary:hover { background: var(--surface-hover); border-color: var(--border-light); }
+    .btn-accent { background: var(--accent); color: white; }
+    .btn-accent:hover { opacity: 0.9; }
+    .btn-success { background: var(--success); color: white; }
+    .btn-success:hover { opacity: 0.9; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { opacity: 0.9; }
+
+    /* Layout & Container */
+    main {
+      flex: 1;
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.25rem 1rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Cards & Containers */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    /* Badges & Pills */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-primary { background: rgba(59, 130, 246, 0.2); color: var(--primary-light); border: 1px solid rgba(59, 130, 246, 0.4); }
+    .badge-level-1 { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid #3b82f6; }
+    .badge-level-2 { background: rgba(6, 182, 212, 0.2); color: #67e8f9; border: 1px solid #06b6d4; }
+    .badge-level-3 { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; border: 1px solid #8b5cf6; }
+    .badge-level-4 { background: rgba(245, 158, 11, 0.2); color: #fcd34d; border: 1px solid #f59e0b; }
+    .badge-tag { background: var(--surface-card); color: var(--text-muted); border: 1px solid var(--border); }
+
+    /* Alert Boxes */
+    .alert-box {
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+      border-left: 4px solid transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .alert-danger {
+      background: var(--danger-surface);
+      border-left-color: var(--danger);
+      color: #fca5a5;
+    }
+    .alert-danger .alert-title {
+      color: #f87171;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .alert-warning {
+      background: var(--warning-surface);
+      border-left-color: var(--warning);
+      color: #fde68a;
+    }
+    .alert-warning .alert-title {
+      color: #fbbf24;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .alert-info {
+      background: var(--info-surface);
+      border-left-color: var(--info);
+      color: #a5f3fc;
+    }
+
+    /* Progress bar */
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: var(--surface-card);
+      border-radius: 9999px;
+      overflow: hidden;
+      margin: 0.75rem 0 1.25rem;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: width 0.3s ease;
+    }
+
+    /* Leitner Boxes Display */
+    .leitner-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .leitner-box-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem;
+      text-align: center;
+      transition: transform 0.15s ease;
+    }
+    .leitner-box-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    .box-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .box-count {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text);
+      margin: 0.2rem 0;
+    }
+    .box-interval {
+      font-size: 0.75rem;
+      color: var(--primary-light);
+    }
+
+    /* Forms & Textareas */
+    textarea, input[type="text"], input[type="date"], select {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      margin-top: 0.35rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    textarea:focus, input:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Stage 1 Micro-Drill Specifics */
+    .scenario-quote {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      background: var(--surface-card);
+      border-left: 4px solid var(--primary);
+      padding: 1.2rem 1.4rem;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 1rem 0;
+      color: #f1f5f9;
+    }
+    .challenge-prompt {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px dashed rgba(139, 92, 246, 0.4);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+    .hints-drawer {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1.1rem;
+      margin: 0.85rem 0;
+    }
+    .hint-step {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .hint-step:last-child { border-bottom: none; }
+
+    /* Flipped Card Result */
+    .revealed-content {
+      border-top: 2px solid var(--border);
+      padding-top: 1.5rem;
+      margin-top: 1.5rem;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .model-answer-box {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: var(--radius-sm);
+      padding: 1.2rem 1.4rem;
+      margin: 1rem 0;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #a7f3d0;
+    }
+    .breakdown-box {
+      background: var(--surface-card);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+
+    /* Stage 2 Macro-Drill Specifics */
+    .skeleton-slot {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin-bottom: 0.85rem;
+    }
+    .skeleton-slot-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+    .timer-badge {
+      font-family: monospace;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 0.3rem 0.8rem;
+      border-radius: 9999px;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+    }
+    .timer-warning {
+      background: var(--warning-surface);
+      color: #fbbf24;
+      border-color: #f59e0b;
+    }
+    .timer-danger {
+      background: var(--danger-surface);
+      color: #f87171;
+      border-color: #ef4444;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* Phrase Drawer Chips */
+    .chip-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.75rem 0;
+    }
+    .chip {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.45rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+    }
+    .chip:hover {
+      border-color: var(--primary);
+      background: var(--surface-hover);
+    }
+    .chip-active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary-light);
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-content {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      max-width: 650px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Utilities */
+    .flex-row { display: flex; align-items: center; gap: 0.5rem; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; }
+    .flex-wrap { flex-wrap: wrap; }
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mt-3 { margin-top: 1.5rem; }
+    .text-center { text-align: center; }
+    .text-muted { color: var(--text-muted); }
+    .hidden { display: none !important; }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      main { padding: 0.75rem 0.5rem 2rem; }
+      .card { padding: 1.1rem; }
+      .btn-lg { width: 100%; }
+      .leitner-grid { grid-template-columns: repeat(3, 1fr); }
+      .rating-grid { display: flex; flex-direction: column; width: 100%; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <a class="brand" onclick="UI.showView('dashboard')">
+      <div class="brand-icon">✍️</div>
+      <div>
+        <div class="brand-title">CompoHelper English</div>
+        <div class="brand-subtitle">80/20 Upper Primary Routine (P5)</div>
+      </div>
+    </a>
+    <div class="nav-actions">
+      <button class="btn btn-secondary btn-sm" onclick="UI.showView('phrase_bank')" title="Phrase Bank">📚 Phrases</button>
+      <button class="btn btn-secondary btn-sm" onclick="UI.showView('manager')" title="Manage Content & Backups">⚙️ Data</button>
+      <button class="btn btn-secondary btn-sm" onclick="UI.showView('settings')" title="Settings">⚙️ Settings</button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main id="app-viewport">
+
+    <!-- VIEW 1: DASHBOARD -->
+    <section id="view-dashboard" class="view">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800;">15-Minute Daily Composition Routine</h2>
+            <p class="text-muted" style="font-size: 0.95rem;">Focus: Content Development, Internal Dilemma & Theme Proof</p>
+          </div>
+          <span class="badge badge-primary" id="dash-exam-badge">Exam in: -- days</span>
+        </div>
+
+        <div style="background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius); padding: 1.3rem; margin: 1.25rem 0;">
+          <div class="flex-between flex-wrap">
+            <div>
+              <div style="font-size: 0.85rem; text-transform: uppercase; font-weight: 700; color: var(--primary-light);">Today's Practice Queue</div>
+              <div style="font-size: 1.7rem; font-weight: 800; margin: 0.2rem 0;" id="dash-queue-summary">Loading queue...</div>
+              <p class="text-muted" style="font-size: 0.9rem;" id="dash-queue-detail">10 Mins Micro-Drills + 5 Mins Macro Dilemma Builder</p>
+            </div>
+            <div class="mt-1">
+              <button class="btn btn-primary btn-lg" id="btn-start-session" onclick="UI.startDailySession()">▶ Start 15-Min Routine</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Leitner Retention Overview -->
+        <div class="mt-2">
+          <div class="flex-between">
+            <h3 style="font-size: 1rem; font-weight: 700;">Leitner Retention Distribution</h3>
+            <span class="text-muted" style="font-size: 0.85rem;" id="dash-total-cards">-- total cards</span>
+          </div>
+          <div class="leitner-grid" id="dash-leitner-boxes">
+            <!-- Box cards dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Quick Tips for P5 Transition -->
+        <div class="alert-box alert-warning mt-2">
+          <div class="alert-title">🎯 Upper Primary (P5) Writing Rule</div>
+          <div>Do not just recite FAST or 5W1H. <strong>Select 1 or 2 Levers</strong> that matter. Make the character's choice difficult—doing the right thing must carry a real cost.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: STAGE 1 MICRO-DRILL -->
+    <section id="view-stage1" class="view hidden">
+      <div class="card">
+        <div class="card-header">
+          <div class="flex-row flex-wrap">
+            <span class="badge" id="s1-level-badge">Level 1</span>
+            <span class="badge badge-primary" id="s1-category-badge">Category</span>
+            <span class="badge badge-tag" id="s1-theme-badge">Theme</span>
+          </div>
+          <div class="flex-row">
+            <span class="timer-badge" id="s1-timer">00:00</span>
+            <span class="badge badge-tag" id="s1-counter">Card 1 of 10</span>
+          </div>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="s1-progress" style="width: 10%;"></div>
+        </div>
+
+        <!-- Scenario Prompt or Flawed Passage -->
+        <div style="margin-top: 0.5rem;">
+          <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);" id="s1-scenario-label">Scenario / Draft to Evaluate:</div>
+          <div class="scenario-quote" id="s1-scenario-text">Loading card scenario...</div>
+        </div>
+
+        <!-- Challenge Prompt -->
+        <div class="challenge-prompt">
+          <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: var(--accent); margin-bottom: 0.25rem;">Your Objective:</div>
+          <div id="s1-challenge-text">Guiding question...</div>
+        </div>
+
+        <!-- Actions: Hints and TTS -->
+        <div class="flex-between flex-wrap" style="gap: 0.5rem; margin: 0.85rem 0;">
+          <button class="btn btn-secondary btn-sm" id="btn-reveal-hint" onclick="UI.revealNextHint()">💡 Reveal Hint (<span id="s1-hint-count">0/3</span>)</button>
+          <button class="btn btn-secondary btn-sm" onclick="TTS.speakCurrentCard()">🔊 Listen (TTS)</button>
+        </div>
+
+        <!-- Progressive Hints Container -->
+        <div class="hints-drawer hidden" id="s1-hints-container">
+          <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.3rem;">Progressive Hints:</div>
+          <div id="s1-hints-list"></div>
+        </div>
+
+        <!-- Scratchpad Area -->
+        <div class="mt-2">
+          <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Quick Scratchpad (Oral formulation or bullet note):</div>
+          <textarea id="s1-scratchpad" placeholder="Mentally formulate or type your key actions, thoughts, and dilemmas before flipping..." rows="2"></textarea>
+        </div>
+
+        <!-- Flip Button -->
+        <div class="mt-2" id="s1-flip-container">
+          <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="UI.flipMicroCard()">⎵ Flip & Reveal Model Strategy (Space)</button>
+        </div>
+
+        <!-- Revealed Area (Hidden until flipped) -->
+        <div id="s1-revealed" class="revealed-content hidden">
+          <div style="font-size: 0.85rem; text-transform: uppercase; font-weight: 700; color: var(--success);" id="s1-answer-label">Model Scene Development:</div>
+          <div class="model-answer-box" id="s1-model-answer">--</div>
+
+          <div style="font-size: 0.85rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Technique Breakdown (Why This Works):</div>
+          <div class="breakdown-box" id="s1-breakdown-text">--</div>
+
+          <!-- Anti-Pattern Warning Alert -->
+          <div class="alert-box alert-danger">
+            <div class="alert-title">⚠️ Anti-Pattern Alert (When NOT to Use)</div>
+            <div id="s1-antipattern-text">--</div>
+          </div>
+
+          <!-- Self-Grading Buttons -->
+          <div class="mt-3">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem; text-align: center;">How effectively did you develop or evaluate this scene?</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;" class="rating-grid">
+              <button class="btn btn-danger btn-lg" onclick="UI.gradeCurrentCard(1)">
+                <span>[1] Again</span>
+                <span style="font-size: 0.75rem; opacity: 0.85;">(1 day)</span>
+              </button>
+              <button class="btn btn-primary btn-lg" onclick="UI.gradeCurrentCard(2)">
+                <span>[2] Good</span>
+                <span style="font-size: 0.75rem; opacity: 0.85;">(3 days)</span>
+              </button>
+              <button class="btn btn-success btn-lg" onclick="UI.gradeCurrentCard(3)">
+                <span>[3] Easy</span>
+                <span style="font-size: 0.75rem; opacity: 0.85;">(7+ days)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- VIEW 3: STAGE 2 MACRO-DRILL -->
+    <section id="view-stage2" class="view hidden">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-level-4">Stage 2: Macro Plot & Dilemma</span>
+            <span class="badge badge-tag" id="s2-theme-badge">Theme: Doing the Right Thing</span>
+            <h2 style="font-size: 1.25rem; font-weight: 800; margin-top: 0.35rem;" id="s2-prompt-title">Prompt Title</h2>
+          </div>
+          <div class="flex-row">
+            <span class="timer-badge" id="s2-countdown">05:00</span>
+          </div>
+        </div>
+
+        <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.9rem; margin-bottom: 1.25rem;">
+          <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: var(--primary-light);">Situation Context:</div>
+          <div id="s2-context-text" style="font-size: 0.95rem; color: #cbd5e1; margin-top: 0.2rem;">--</div>
+        </div>
+
+        <!-- Step 1: 4-Part Skeleton -->
+        <div>
+          <div class="flex-between">
+            <h3 style="font-size: 1.05rem; font-weight: 700;">Step 1: Four-Part Plot Skeleton (2 mins)</h3>
+            <span class="text-muted" style="font-size: 0.85rem;">Check causal flow: Event A forces Choice B</span>
+          </div>
+
+          <div style="margin-top: 0.75rem;">
+            <div class="skeleton-slot">
+              <div class="skeleton-slot-title">
+                <span>1. Opening (Hook & Baseline Context)</span>
+              </div>
+              <textarea id="s2-slot1" rows="2" placeholder="Describe normality before disruption..."></textarea>
+            </div>
+
+            <div class="skeleton-slot">
+              <div class="skeleton-slot-title">
+                <span>2. Build-up (Inciting Incident & Escalation)</span>
+              </div>
+              <textarea id="s2-slot2" rows="2" placeholder="Show how events escalate causally..."></textarea>
+            </div>
+
+            <div class="skeleton-slot" style="border-color: rgba(245, 158, 11, 0.4);">
+              <div class="skeleton-slot-title" style="color: #fbbf24;">
+                <span>3. Turning Point / Climax (Internal Dilemma & Costly Action)</span>
+                <span class="badge badge-level-4">Focus Beat</span>
+              </div>
+              <textarea id="s2-slot3" rows="2" placeholder="The difficult dilemma. Doing the right thing must cost something..."></textarea>
+            </div>
+
+            <div class="skeleton-slot">
+              <div class="skeleton-slot-title">
+                <span>4. Resolution (Consequence & Organic Realisation)</span>
+              </div>
+              <textarea id="s2-slot4" rows="2" placeholder="Logical fallout; genuine reflection (not generic proverbs)..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Elaborate the Pivotal Scene -->
+        <div class="mt-3">
+          <div class="flex-between">
+            <h3 style="font-size: 1.05rem; font-weight: 700;">Step 2: Elaborate the Pivotal Turning Point (3 mins)</h3>
+            <span class="badge badge-primary">3–4 Sentences</span>
+          </div>
+
+          <div class="alert-box alert-info mt-1">
+            <div id="s2-pivotal-challenge" style="font-size: 0.95rem;">Focus on internal conflict, narrative deceleration, and physical hesitation before the decision.</div>
+          </div>
+
+          <!-- Suggested Phrases Drawer -->
+          <div class="mt-1">
+            <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Suggested Upper Primary Phrases (Click to insert):</div>
+            <div class="chip-container" id="s2-phrase-chips">
+              <!-- Dynamically populated phrase chips -->
+            </div>
+          </div>
+
+          <div class="mt-1">
+            <textarea id="s2-scene-draft" rows="4" placeholder="Draft your 3-4 sentence pivotal climax scene here. Show the internal hesitation, the cost of the decision, and the decisive physical action..."></textarea>
+          </div>
+        </div>
+
+        <div class="mt-3 text-center">
+          <button class="btn btn-success btn-lg" onclick="UI.completeSession()">✔ Complete 15-Minute Daily Routine</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- VIEW 4: SUMMARY & REST SCREEN -->
+    <section id="view-summary" class="view hidden">
+      <div class="card text-center" style="padding: 2.5rem 1.5rem;">
+        <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🎉</div>
+        <h2 style="font-size: 1.8rem; font-weight: 800;">15-Minute Practice Complete!</h2>
+        <p class="text-muted" style="font-size: 1.05rem; max-width: 500px; margin: 0.5rem auto 1.5rem;">
+          Great focus today! Spaced recall strengthens memory consolidation during rest. 
+        </p>
+
+        <!-- Session Statistics Card -->
+        <div style="background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; max-width: 600px; margin: 0 auto 1.5rem; text-align: left;">
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--primary-light); margin-bottom: 0.75rem;">Today's Session Plan Card</h4>
+          <div id="summary-plan-output" style="white-space: pre-wrap; font-size: 0.95rem; line-height: 1.7; color: #e2e8f0; background: rgba(0,0,0,0.25); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05);">
+            <!-- Plan formatted text -->
+          </div>
+          <div class="flex-row mt-2" style="justify-content: flex-end;">
+            <button class="btn btn-secondary btn-sm" onclick="UI.copyPlanCard()">📋 Copy Plan Card</button>
+            <button class="btn btn-secondary btn-sm" onclick="window.print()">🖨️ Print Plan</button>
+          </div>
+        </div>
+
+        <div class="alert-box alert-warning" style="max-width: 600px; margin: 0 auto 1.5rem; text-align: left;">
+          <div class="alert-title">🔒 Rest Circuit Breaker Active</div>
+          <div>To prevent cognitive fatigue and ensure deep neural consolidation, further drills are locked for today. Keep reading widely!</div>
+        </div>
+
+        <div>
+          <button class="btn btn-primary btn-lg" onclick="UI.showView('dashboard')">Return to Dashboard</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 5: PHRASE BANK EXPLORER -->
+    <section id="view-phrase_bank" class="view hidden">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800;">Upper Primary Phrase Bank</h2>
+            <p class="text-muted" style="font-size: 0.9rem;">High-utility expressions with mandatory Anti-Pattern guardrails</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="UI.showView('dashboard')">← Dashboard</button>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="flex-row flex-wrap" style="gap: 0.5rem; margin-bottom: 1.25rem;">
+          <input type="text" id="pb-search-input" placeholder="Search phrases, meanings, or tags..." style="flex: 1; min-width: 220px;" oninput="UI.filterPhraseBank()">
+          <select id="pb-tag-filter" style="width: auto; min-width: 160px;" onchange="UI.filterPhraseBank()">
+            <option value="">All Themes</option>
+          </select>
+          <select id="pb-slot-filter" style="width: auto; min-width: 160px;" onchange="UI.filterPhraseBank()">
+            <option value="">All Narrative Slots</option>
+            <option value="Opening">Opening</option>
+            <option value="Build-up">Build-up</option>
+            <option value="Climax">Turning Point / Climax</option>
+            <option value="Resolution">Resolution</option>
+          </select>
+        </div>
+
+        <!-- Phrase Cards Grid -->
+        <div id="pb-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 6: DATA & BACKUP MANAGER -->
+    <section id="view-manager" class="view hidden">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800;">Data Management & Backups</h2>
+            <p class="text-muted" style="font-size: 0.9rem;">100% Local-First. Zero SaaS. Manage via CSV or 1-Click JSON backup.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="UI.showView('dashboard')">← Dashboard</button>
+        </div>
+
+        <!-- 1-Click Backup & Restore -->
+        <div style="background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem;">
+          <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--primary-light);">1-Click Full Database Backup & Cross-Device Sync</h3>
+          <p class="text-muted" style="font-size: 0.85rem; margin: 0.35rem 0 0.85rem;">
+            Export a single <code>.json</code> file to transfer all cards, schedules, and logs between your PC and Android device.
+          </p>
+          <div class="flex-row flex-wrap" style="gap: 0.75rem;">
+            <button class="btn btn-primary" onclick="DB.exportBackupJSON()">💾 Download JSON Backup</button>
+            <label class="btn btn-secondary" style="cursor: pointer;">
+              📂 Restore from JSON Backup
+              <input type="file" id="json-file-input" accept=".json" style="display: none;" onchange="DB.importBackupJSON(event)">
+            </label>
+          </div>
+        </div>
+
+        <!-- CSV Import & Export -->
+        <div style="background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem;">
+          <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--accent);">Spreadsheet Batch Editing (CSV)</h3>
+          <p class="text-muted" style="font-size: 0.85rem; margin: 0.35rem 0 0.85rem;">
+            Export to Excel, add custom cards, and re-import with strict RFC-4180 validation.
+          </p>
+          <div class="flex-row flex-wrap" style="gap: 0.75rem;">
+            <button class="btn btn-secondary btn-sm" onclick="CSV.exportStrategiesCSV()">Export Strategies (CSV)</button>
+            <button class="btn btn-secondary btn-sm" onclick="CSV.exportPhrasesCSV()">Export Phrases (CSV)</button>
+            <button class="btn btn-secondary btn-sm" onclick="CSV.exportPromptsCSV()">Export Prompts (CSV)</button>
+          </div>
+          <div class="mt-2">
+            <label class="btn btn-secondary btn-sm" style="cursor: pointer;">
+              📥 Import Strategies CSV
+              <input type="file" accept=".csv" style="display: none;" onchange="CSV.importStrategiesCSV(event)">
+            </label>
+            <label class="btn btn-secondary btn-sm" style="cursor: pointer;">
+              📥 Import Phrases CSV
+              <input type="file" accept=".csv" style="display: none;" onchange="CSV.importPhrasesCSV(event)">
+            </label>
+          </div>
+        </div>
+
+        <!-- Card Creator Tool -->
+        <div style="background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem;">
+          <h3 style="font-size: 1.05rem; font-weight: 700;">Manual Card Creator</h3>
+          <div class="flex-row mt-1" style="gap: 0.75rem;">
+            <button class="btn btn-secondary btn-sm" onclick="UI.openNewCardModal('strategy')">+ New Strategy Card</button>
+            <button class="btn btn-secondary btn-sm" onclick="UI.openNewCardModal('phrase')">+ New Phrase Card</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- VIEW 7: SETTINGS -->
+    <section id="view-settings" class="view hidden">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800;">Application Settings</h2>
+            <p class="text-muted" style="font-size: 0.9rem;">Target dates, daily queue limits, and audio synthesis</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="UI.showView('dashboard')">← Dashboard</button>
+        </div>
+
+        <div style="max-width: 500px;">
+          <div style="margin-bottom: 1.25rem;">
+            <label style="font-size: 0.85rem; font-weight: 700;">Target Primary School Exam Date:</label>
+            <input type="date" id="setting-exam-date" onchange="UI.saveSettings()">
+            <p class="text-muted" style="font-size: 0.75rem; margin-top: 0.25rem;">Intervals are clamped automatically so cards are reinforced before this date.</p>
+          </div>
+
+          <div style="margin-bottom: 1.25rem;">
+            <label style="font-size: 0.85rem; font-weight: 700;">Daily Review Limit (Cards/day):</label>
+            <input type="text" id="setting-review-limit" value="10" onchange="UI.saveSettings()">
+          </div>
+
+          <div style="margin-bottom: 1.25rem;">
+            <label style="font-size: 0.85rem; font-weight: 700;">Daily New Cards Limit:</label>
+            <input type="text" id="setting-new-limit" value="2" onchange="UI.saveSettings()">
+          </div>
+
+          <div style="margin-bottom: 1.25rem;">
+            <label style="font-size: 0.85rem; font-weight: 700;">Text-to-Speech English Voice:</label>
+            <select id="setting-voice-select" onchange="UI.saveSettings()">
+              <option value="">Default System English</option>
+            </select>
+            <div class="mt-1">
+              <button class="btn btn-secondary btn-sm" onclick="TTS.testVoice()">🔊 Test Voice</button>
+            </div>
+          </div>
+
+          <div class="alert-box alert-danger mt-3">
+            <div class="alert-title">⚠️ Danger Zone</div>
+            <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">Reset database to default P5 transition seed content. This replaces your current review state.</p>
+            <button class="btn btn-danger btn-sm" onclick="DB.resetToDefaultSeeds()">Reset All Data to Factory Default</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: ADD/EDIT CARD -->
+  <div id="modal-edit-card" class="modal-backdrop hidden">
+    <div class="modal-content">
+      <div class="flex-between">
+        <h3 id="modal-card-title" style="font-weight: 800;">Add Strategy Card</h3>
+        <button class="btn btn-secondary btn-sm" onclick="UI.closeModal()">✕</button>
+      </div>
+      <div id="modal-card-body" class="mt-2">
+        <!-- Form injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * =========================================================================
+     * 1. SEED DATASET (Upper Primary P5 Transition)
+     * =========================================================================
+     */
+    const DEFAULT_CONFIG = {
+      key: 'settings',
+      exam_date: '2027-09-25',
+      daily_review_limit: 10,
+      daily_new_limit: 2,
+      voice_rate: 0.9,
+      voice_lang: 'en-SG',
+      audio_enabled: true
+    };
+
+    const SEED_STRATEGIES = [
+      {
+        id: "strat-eval-001",
+        scaffolding_level: "LEVEL_4_EVALUATE",
+        category: "CRITIQUE_REVISION",
+        sub_category: "Internal Dilemma vs. Instant Saint",
+        theme_tags: ["Doing the Right Thing", "Honesty"],
+        title: "Fixing the 'Instant Saint' Flaw in a Confession Scene",
+        scenario_prompt: "DRAFT TO CRITIQUE:\n\"When Mrs Tan asked who broke the projector remote, Ryan felt very bad. He immediately stood up and said, 'Mrs Tan, it was an accident, I broke it.' Mrs Tan praised him for being an honest boy who always does the right thing.\"",
+        guiding_question: "Why is this draft unconvincing for Upper Primary? Identify the missing internal conflict, then write a revision showing what Ryan feared losing before he made the difficult choice.",
+        hints: [
+          "Critique: Ryan acts like an 'instant saint'—there is zero hesitation or fear of punishment.",
+          "Revision Step 1: Show his internal panic (what happens if he confesses? what happens if he stays quiet?).",
+          "Revision Step 2: Show the physical delay before his courage takes over."
+        ],
+        model_answer: "CRITIQUE:\nThe character shows no realistic fear or dilemma. Confession feels effortless, and the teacher's reaction is a generic moral sermon.\n\nPURPOSEFUL REVISION:\nMrs Tan’s sharp gaze swept across the silent classroom. A cold sweat prickled Ryan’s neck. If he spoke up, he would face detention and have to pay for the remote with his allowance. But if he kept quiet, the whole class would stay back after school. His heart hammered in his ears as his fingers twisted the hem of his uniform. Taking a ragged breath before fear could pin him to his chair, Ryan pushed himself up.",
+        technique_breakdown: "Upper Primary realism requires showing the cost of the decision. Ryan calculates the consequence (detention, allowance loss) and battles his fear before acting.",
+        anti_pattern_warning: "Do not turn teachers into instant praise-machines. Real consequences exist, and honest choices are hard.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "strat-persp-001",
+        scaffolding_level: "LEVEL_2_GUIDED",
+        category: "PERSPECTIVE_EMPATHY",
+        sub_category: "Supporting Character Integrity",
+        theme_tags: ["Peer Pressure", "Doing the Right Thing"],
+        title: "Supporting Character: Giving Lily Her Own Stakes",
+        scenario_prompt: "Lily sees her best friend Chloe about to cheat during a weighted assessment by looking at notes hidden in her pencil case.",
+        guiding_question: "Do not make Lily a moral robot who preaches about school rules. Develop Lily's perspective: show her conflicting loyalties between protecting Chloe and stopping an unfair act.",
+        hints: [
+          "What does Lily fear Chloe will think of her if she interferes?",
+          "How does Lily physically communicate her warning without publicly exposing Chloe?",
+          "Show Lily's internal hesitation before she taps Chloe's desk."
+        ],
+        model_answer: "Lily froze, her pencil hovering above her test paper. Shouting for the invigilator would mean Chloe's immediate zero and the end of their five-year friendship. Yet sitting by while Chloe cheated felt like a punch to the gut. Swallowing the lump in her throat, Lily dropped her eraser so it bounced against Chloe’s shoe, locking eyes with her friend and shaking her head in frantic, silent pleading.",
+        technique_breakdown: "Lily possesses agency: she protects the friendship while actively intervening through a discreet physical action (dropping the eraser) rather than preaching.",
+        anti_pattern_warning: "Never have a supporting character say: 'Chloe, cheating is against the rules!' Children handle peer dilemmas with secrecy and emotional friction.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "strat-pacing-001",
+        scaffolding_level: "LEVEL_3_INDEPENDENT",
+        category: "TENSION_PACING",
+        sub_category: "Narrative Deceleration",
+        theme_tags: ["Tension", "Courage"],
+        title: "Slowing Down the Climax: The Knock on the Door",
+        scenario_prompt: "After accidentally shattering the staff room window with a soccer ball, Keith has walked up to the Vice-Principal's office to confess. He is standing outside the frosted glass door.",
+        guiding_question: "Do not rush inside. Slow down the narrative for 3 sentences: show the sensory atmosphere outside the door, Keith's physical hesitation, and the precise moment his hand contacts the wood.",
+        hints: [
+          "(Independent Level: Formulate without hints first. Toggle if stuck.)"
+        ],
+        model_answer: "The frosted glass door loomed before Keith, the black letters of 'VICE-PRINCIPAL' etched like an indictment. Down the corridor, the distant chime of the dismissal bell sounded like a lifeline he had just abandoned. His knuckles hovered an inch from the polished wood, his breath caught in his throat, before he forced his hand forward and rapped twice against the timber.",
+        technique_breakdown: "Narrative deceleration: expands 3 seconds into a full paragraph. Contrasts the escape option (distant bell) with the irreversible physical action (knocking).",
+        anti_pattern_warning: "Avoid rushing: 'I walked to the office, knocked, and went in.' The tension lives in the hesitation.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "strat-eval-002",
+        scaffolding_level: "LEVEL_4_EVALUATE",
+        category: "CRITIQUE_REVISION",
+        sub_category: "The Moral Puppet Flaw",
+        theme_tags: ["Responsibility", "Peer Conflict"],
+        title: "Eliminating Moral Preaching in Supporting Characters",
+        scenario_prompt: "DRAFT TO CRITIQUE:\n\"I was tempted to keep the $50 note I found in the canteen. Just then, my classmate Siti walked over and said, 'You must hand it to the general office because honesty is the best policy.' I agreed and returned it.\"",
+        guiding_question: "Identify why Siti's dialogue ruins the story's realism. Rewrite the interaction so Siti tests or questions the protagonist instead of preaching a proverb.",
+        hints: [
+          "Critique: Real children do not speak in MOE values slogans.",
+          "Revision Step 1: Make Siti spot the money and ask a tempting or anxious question.",
+          "Revision Step 2: Show the protagonist making the choice, not just blindly obeying."
+        ],
+        model_answer: "CRITIQUE:\nSiti is a 'moral puppet' who delivers a textbook lecture. There is no natural dialogue and no dramatic friction.\n\nPURPOSEFUL REVISION:\nSiti's sharp gasp shattered my reverie. Her eyes locked onto the crisp purple note clutched in my damp fingers. \"Is that... fifty dollars?\" she whispered, looking frantically over her shoulder toward the crowded drinks stall. \"Someone’s entire week of pocket money is gone. What are you going to do with it?\" Her gaze was not accusatory, but searching, leaving the heavy burden of the answer squarely in my hands.",
+        technique_breakdown: "Siti acts as a mirror to the protagonist's conscience. She asks questions that heighten the dilemma instead of delivering a sermon.",
+        anti_pattern_warning: "Do not use supporting characters as walking proverbs. Give them natural cadence and believable curiosity.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "strat-eval-003",
+        scaffolding_level: "LEVEL_4_EVALUATE",
+        category: "CRITIQUE_REVISION",
+        sub_category: "The Idiom Dump Flaw",
+        theme_tags: ["Show Not Tell", "Authentic Language"],
+        title: "Purging Unnatural Idiom Dumps for Physical Evidence",
+        scenario_prompt: "DRAFT TO CRITIQUE:\n\"When the teacher accused me, it was a bolt from the blue! I was as red as a tomato and shaking like a leaf. My heart leaped into my mouth like a frightened rabbit.\"",
+        guiding_question: "This passage suffers from severe 'idiom dumping'. Replace all four clichéd similes with two precise physical actions and one internal thought.",
+        hints: [
+          "Critique: Three cliches stacked consecutively ('bolt from the blue', 'red as a tomato', 'shaking like a leaf') sound like a list, not human experience.",
+          "Revision: Focus on voice tone, dry throat, or eye movement."
+        ],
+        model_answer: "CRITIQUE:\nThe draft regurgitates idioms without feeling. The reader visualises idioms, not a frightened student.\n\nPURPOSEFUL REVISION:\nMr Lee's accusation hit like a physical blow. The air rushed out of my lungs, leaving my throat painfully parched. I gripped the edges of my wooden desk until my knuckles turned chalk-white, unable to meet his piercing gaze as the classroom dissolved into horrified silence.",
+        technique_breakdown: "Replaces 4 clichés with visceral physical details: loss of breath, parched throat, white knuckles, avoiding eye contact.",
+        anti_pattern_warning: "Idiom dumping receives zero bonus marks in Upper Primary. Precise verbs and authentic physical details always outscore clichés.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "strat-persp-002",
+        scaffolding_level: "LEVEL_2_GUIDED",
+        category: "PERSPECTIVE_EMPATHY",
+        sub_category: "Contrasting Perspectives",
+        theme_tags: ["Empathy", "Bullying / Misunderstanding"],
+        title: "Two Sides of an Accident: The Accidental Trip",
+        scenario_prompt: "During recess, Jason was rushing with his bowl of mee soto and collided with Samuel, spilling hot soup across Samuel's fresh uniform.",
+        guiding_question: "Do not just write from Jason's panic. Contrast Samuel's shock and pain with Jason's horrified guilt in two connected sentences.",
+        hints: [
+          "Show Samuel's immediate physical pain/embarrassment.",
+          "Show Jason's instant paralysis and realization of what he just caused."
+        ],
+        model_answer: "Samuel stumbled backward with a sharp yelp, clutching the scalding, soup-soaked front of his shirt as scalding broth dripped onto his white socks. Across from him, Jason stood frozen in mortified horror, the empty plastic tray trembling in his hands as the chatter of the canteen suddenly vanished around them.",
+        technique_breakdown: "Captures both angles: the victim's immediate physical distress and the perpetrator's sudden horror.",
+        anti_pattern_warning: "Avoid ignoring the victim: 'I dropped the soup and said sorry and he said it's okay.' Conflicts take time to settle.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "strat-pacing-002",
+        scaffolding_level: "LEVEL_3_INDEPENDENT",
+        category: "TENSION_PACING",
+        sub_category: "Causal Escalation in Build-up",
+        theme_tags: ["Responsibility", "Escalating Stakes"],
+        title: "Tight Causal Chain: A Small Mistake Snowballs",
+        scenario_prompt: "Sarah forgot her Science workbook at home on submission day. Instead of confessing, she told Mrs Lim that her groupmate Lucas had borrowed it.",
+        guiding_question: "Construct a 3-step causal escalation: Event A (the lie) forces Reaction B (Mrs Lim reprimands Lucas), which leads to Complication C (Lucas confronts Sarah).",
+        hints: [
+          "(Independent Level: Formulate the causal chain without hints.)"
+        ],
+        model_answer: "Mrs Lim frowned, immediately noting Lucas’s name on the detention list for unreturned assignments. Before Sarah could backtrack, Lucas turned around from two rows ahead, his eyes widening in bewildered betrayal as the teacher reprimanded him in front of the entire class. The innocent white lie had instantly turned into a weapon that struck down her closest friend.",
+        technique_breakdown: "Cause-and-effect progression: Sarah's lie -> Teacher punishes Lucas -> Lucas's bewildered reaction -> Sarah trapped by her own deceit.",
+        anti_pattern_warning: "Do not have events occur without causal consequence. Every action must trigger a heavier complication.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "strat-motiv-001",
+        scaffolding_level: "LEVEL_2_GUIDED",
+        category: "MOTIVATION_CONFLICT",
+        sub_category: "Competing Stakes",
+        theme_tags: ["Integrity", "Ambition"],
+        title: "Competing Wants: The Sports Day Relay",
+        scenario_prompt: "Devin notices his relay teammate step clearly out of the lane during the anchor leg, winning them the championship trophy.",
+        guiding_question: "Show Devin's internal battle between his fierce desire for the trophy and his gnawing guilt over an unfair victory.",
+        hints: [
+          "What did Devin sacrifice all year to win this trophy?",
+          "How does holding the gold medal feel physically tainted?"
+        ],
+        model_answer: "Devin stared at the glittering gold medal in his hand, the metal feeling cold and impossibly heavy. Months of dawn sprints and blistered heels had led to this exact triumph, yet the memory of Jeremy's foot crossing the white lane line burned behind his eyelids. The wild cheers of his teammates felt hollow, ringing in his ears like mockery.",
+        technique_breakdown: "Contrast between external celebration (cheering teammates, gold trophy) and internal moral sickness (heavy metal, hollow cheers).",
+        anti_pattern_warning: "Do not resolve the conflict in half a sentence: 'He wanted to win but decided to be honest.' Let the ambition fight the conscience.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "strat-theme-001",
+        scaffolding_level: "LEVEL_3_INDEPENDENT",
+        category: "THEME_LINK",
+        sub_category: "Costly Decision",
+        theme_tags: ["Doing the Right Thing", "Courage"],
+        title: "Demonstrating Theme via Sacrifice: Reporting Extra Marks",
+        scenario_prompt: "Theme: 'Doing the Right Thing'. Ryan discovers he was accidentally given an extra 5 marks on his Science exam paper, making him the top scorer in the cohort.",
+        guiding_question: "Doing the right thing only has narrative power when it costs the protagonist something valuable. Show Ryan surrendering his cohort-topping status.",
+        hints: [
+          "(Independent Level: Focus on the tangible loss Ryan must accept.)"
+        ],
+        model_answer: "Surrendering those five unearned marks meant relinquishing his cohort-topping rank and disappointing his parents, who had already praised him over the phone. Ryan traced the red ink with trembling fingers. Taking a deep, shuddering breath before his courage could crumble, he stood up and walked steadily toward Mr Tan’s table, placing the test paper face down on the desk.",
+        technique_breakdown: "Theme demonstration requires a sacrifice. Ryan forfeits status, praise, and comfort. The physical action proves the virtue.",
+        anti_pattern_warning: "Never end with: 'Ryan was an honest boy who always did the right thing.' The cost of the action demonstrates the theme.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "strat-tad-001",
+        scaffolding_level: "LEVEL_2_GUIDED",
+        category: "TAD",
+        sub_category: "Upper Primary Scene Pacing",
+        theme_tags: ["Pacing", "Transitions"],
+        title: "Transition-Action-Detail: Entering the Principal's Office",
+        scenario_prompt: "The protagonist has arrived outside the principal's office after a classroom fight.",
+        guiding_question: "Use TAD: (1) Transition smoothly into the new location, (2) State the core action, (3) Elaborate with visceral sensory or emotional detail.",
+        hints: [
+          "Transition: Describe the contrast between the loud hallway and the quiet office door.",
+          "Action: Reaching for the door handle.",
+          "Detail: The cold sensation of the metal or the breath holding."
+        ],
+        model_answer: "[Transition] Leaving the muffled chatter of the corridor behind, I found myself standing before the imposing heavy oak door of the principal's office. [Action] My hand reached upward and closed around the brass handle. [Detail] The chilled metal seemed to send a shiver straight up my arm, and I held my breath, bracing myself for the verdict that lay on the other side.",
+        technique_breakdown: "TAD moves the camera: sets the spatial transition, isolates the single physical action, then zooms in with sensory detail.",
+        anti_pattern_warning: "Do not write 'Suddenly I went into the room.' Transitions establish atmosphere and emotional gravity.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "strat-show-001",
+        scaffolding_level: "LEVEL_2_GUIDED",
+        category: "SHOW_NOT_TELL",
+        sub_category: "Physical Evidence of Panic",
+        theme_tags: ["Fear", "Show Not Tell"],
+        title: "Show Panic Without Emotional Labels",
+        scenario_prompt: "Aiden realises his wallet containing his student EZ-link card and $20 emergency money has vanished from his pocket on the crowded bus.",
+        guiding_question: "Do not write 'Aiden panicked' or 'He was terrified'. Show his rising dread through frantic physical actions and physiological reactions.",
+        hints: [
+          "What do his hands frantically do to his pockets?",
+          "What happens to his breathing and pulse?"
+        ],
+        model_answer: "Aiden’s hands slapped against his trousers, frantically patting down every pocket once, twice, three times. His throat went bone-dry. The bustling sounds of the bus blurred into a dull hum as blood pounded violently in his ears, and his fingers dug hopelessly into the empty seams.",
+        technique_breakdown: "Physical gestures (patting pockets frantically, hands digging into seams) and physiological signals (bone-dry throat, blood pounding in ears) eliminate the need for emotion labels.",
+        anti_pattern_warning: "Never write 'He was in a state of extreme panic'. Show the physical struggle.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "strat-5w1h-001",
+        scaffolding_level: "LEVEL_1_RECALL",
+        category: "5W1H",
+        sub_category: "Causal Linkage: The Rejected Apology",
+        theme_tags: ["Friendship", "Causality"],
+        title: "Causality: Why an Apology Was Rejected",
+        scenario_prompt: "Ethan apologised to Caleb for damaging his model airplane, but Caleb shoved the pieces away and refused to speak to him.",
+        guiding_question: "Do not just state that Caleb was stubborn. Explain the psychological WHY: what did the model airplane represent to Caleb that made an apology insufficient?",
+        hints: [
+          "Did Caleb spend weeks building it with a loved one?",
+          "Why does Ethan's casual 'sorry' feel insulting to him?"
+        ],
+        model_answer: "A casual 'sorry' could not replace three weeks of painstaking assembly Caleb had spent alongside his late grandfather. To Caleb, the shattered balsa wood was not merely a broken toy, but a ruined keepsake, making Ethan's flippant apology feel like an insult rather than an amends.",
+        technique_breakdown: "Addresses the deeper psychological WHY. Explains the emotional stakes that justify Caleb's intense reaction.",
+        anti_pattern_warning: "Do not treat characters as simple switches who automatically forgive whenever someone says 'sorry'. Deep wounds take realistic time to heal.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      }
+    ];
+
+    const SEED_PHRASES = [
+      {
+        id: "phr-001",
+        phrase: "wrestled with his conscience",
+        meaning: "Experienced intense internal conflict between selfish temptation and ethical duty.",
+        example_sentence: "Holding the extra change in his damp palm, Daniel wrestled with his conscience as he watched the elderly stallholder search under the counter.",
+        theme_tags: ["Honesty", "Doing the Right Thing", "Dilemma"],
+        functional_tags: ["FAST:Thought", "Internal Dilemma"],
+        suitable_slots: ["Build-up", "Climax"],
+        anti_pattern: "DO NOT use for trivial choices (e.g. choosing between chicken rice or noodles). DO NOT pair with immediate effortless action.",
+        srs_box: 2,
+        srs_interval: 3.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 1,
+        lapses: 0
+      },
+      {
+        id: "phr-002",
+        phrase: "a cold sweat prickled his neck",
+        meaning: "Physical sensation of sudden fear, guilt, or impending exposure.",
+        example_sentence: "The moment Mr Lee called his name in that grave tone, a cold sweat prickled Julian's neck.",
+        theme_tags: ["Fear", "Guilt", "Tension"],
+        functional_tags: ["FAST:Feeling", "Show Not Tell"],
+        suitable_slots: ["Build-up", "Climax"],
+        anti_pattern: "DO NOT use when the character is genuinely cold from weather. Use only for psychological panic.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "phr-003",
+        phrase: "an agonizing silence descended",
+        meaning: "A heavy, tense quiet following an uncomfortable revelation or accusation.",
+        example_sentence: "As the broken trophy hit the floor, an agonizing silence descended over the crowded art room.",
+        theme_tags: ["Tension", "Crisis"],
+        functional_tags: ["Sensory:Sound", "Pacing:Slowdown"],
+        suitable_slots: ["Climax"],
+        anti_pattern: "DO NOT use during normal study time or routine quiet moments.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "phr-004",
+        phrase: "rooted to the spot by conflicting loyalties",
+        meaning: "Unable to move because one is torn between protecting a friend and doing what is fair.",
+        example_sentence: "Standing at the library entrance, Lily was rooted to the spot by conflicting loyalties as Maya stuffed the notebook into her bag.",
+        theme_tags: ["Peer Pressure", "Doing the Right Thing"],
+        functional_tags: ["FAST:Action", "Internal Dilemma"],
+        suitable_slots: ["Build-up", "Climax"],
+        anti_pattern: "DO NOT use if the character is simply surprised by an animal or weather.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "phr-005",
+        phrase: "his fingers hovered inches from...",
+        meaning: "Physical demonstration of hesitation right before an irreversible act.",
+        example_sentence: "His fingers hovered inches from the principal's office door handle, his resolve trembling.",
+        theme_tags: ["Hesitation", "Courage", "Tension"],
+        functional_tags: ["FAST:Action", "Pacing:Slowdown"],
+        suitable_slots: ["Climax"],
+        anti_pattern: "DO NOT use for routine actions like picking up a pencil to write notes.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "phr-006",
+        phrase: "weighed heavily upon her mind",
+        meaning: "A moral burden or secret that causes persistent anxiety and distraction.",
+        example_sentence: "Throughout recess, the unresolved argument with Marcus weighed heavily upon her mind.",
+        theme_tags: ["Responsibility", "Guilt", "Regret"],
+        functional_tags: ["FAST:Thought", "Internal Dilemma"],
+        suitable_slots: ["Build-up", "Resolution"],
+        anti_pattern: "DO NOT use for physical objects or tiredness from sports.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "phr-007",
+        phrase: "summoned every ounce of courage",
+        meaning: "Overcame immense fear to execute a daunting, necessary action.",
+        example_sentence: "Swallowing his panic, Ethan summoned every ounce of courage and stepped between the bully and the crying primary-two boy.",
+        theme_tags: ["Courage", "Doing the Right Thing"],
+        functional_tags: ["FAST:Action", "Climax Beat"],
+        suitable_slots: ["Climax"],
+        anti_pattern: "DO NOT use for minor tasks like raising a hand to answer an easy math question.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "phr-008",
+        phrase: "swallowed the bitter lump in his throat",
+        meaning: "Suppressed tears, pride, or shame in order to speak or face consequences.",
+        example_sentence: "As he handed back the stolen game card, Jeremy swallowed the bitter lump in his throat and mumbled a sincere apology.",
+        theme_tags: ["Remorse", "Humility", "Confession"],
+        functional_tags: ["FAST:Feeling", "Show Not Tell"],
+        suitable_slots: ["Climax", "Resolution"],
+        anti_pattern: "DO NOT use when eating or drinking food.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "phr-009",
+        phrase: "locked eyes in frantic, silent pleading",
+        meaning: "An unspoken, urgent gaze begging someone to stop, reconsider, or remain silent.",
+        example_sentence: "Across the examination hall, Sarah locked eyes with her friend in frantic, silent pleading as the invigilator approached.",
+        theme_tags: ["Peer Pressure", "Tension"],
+        functional_tags: ["FAST:Action", "Show Not Tell"],
+        suitable_slots: ["Build-up", "Climax"],
+        anti_pattern: "DO NOT use in casual, humorous conversations.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "phr-010",
+        phrase: "let out a ragged breath",
+        meaning: "Exhaled unevenly after intense stress, terror, or narrow avoidance of danger.",
+        example_sentence: "Once the prefects turned the corridor corner, Brandon let out a ragged breath and slumped against the lockers.",
+        theme_tags: ["Relief", "Tension Release"],
+        functional_tags: ["FAST:Action", "Pacing:Transition"],
+        suitable_slots: ["Build-up", "Resolution"],
+        anti_pattern: "DO NOT use during calm, restful scenes.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "phr-011",
+        phrase: "a pang of remorse tightened in his chest",
+        meaning: "A sharp, painful emotional realization that one's selfish action hurt another person.",
+        example_sentence: "Seeing the tears well up in his younger brother's eyes, a pang of remorse tightened in Keith's chest.",
+        theme_tags: ["Guilt", "Empathy", "Regret"],
+        functional_tags: ["FAST:Feeling", "Internal Dilemma"],
+        suitable_slots: ["Build-up", "Climax"],
+        anti_pattern: "DO NOT pair with comedic or indifferent reactions.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      },
+      {
+        id: "phr-012",
+        phrase: "steeled himself against the inevitable consequence",
+        meaning: "Prepared mentally to accept punishment or fallout because doing so was right.",
+        example_sentence: "Knocking on his father's study door with the broken tablet, Raymond steeled himself against the inevitable consequence.",
+        theme_tags: ["Responsibility", "Courage", "Resolution"],
+        functional_tags: ["FAST:Thought", "Climax Beat"],
+        suitable_slots: ["Climax", "Resolution"],
+        anti_pattern: "DO NOT use if the character plans to lie or escape punishment.",
+        srs_box: 1,
+        srs_interval: 1.0,
+        due_date: new Date().toISOString().split('T')[0],
+        last_reviewed: null,
+        total_reviews: 0,
+        lapses: 0
+      }
+    ];
+
+    const SEED_PROMPTS = [
+      {
+        id: "prm-001",
+        title: "A Difficult Decision (The Hidden Notes)",
+        theme: "Doing the Right Thing",
+        prompt_type: "Theme-Based",
+        situation_context: "During a high-stakes weighted assessment, your close friend pulls out revision notes hidden inside her pencil case. You know she is under immense family pressure to pass.",
+        default_slot1: "Examination hall atmosphere; the nervous scratch of pencils and strict silence.",
+        default_slot2: "Noticing friend's nervous fidgeting; catching sight of the folded notes slipping onto her lap.",
+        default_slot3: "The Turning Point: The dilemma between protecting your friend and upholding honesty. Your discreet intervention or difficult choice.",
+        default_slot4: "Aftermath: A private, emotional confrontation after the paper; the cost and relief of doing what is right.",
+        pivotal_scene_prompt: "Develop the Turning Point (3-4 sentences): Show your internal moral agony, physical hesitation, and the exact moment you decide what action to take.",
+        suggested_phrase_ids: ["phr-001", "phr-004", "phr-009"]
+      },
+      {
+        id: "prm-002",
+        title: "The Weight of a Secret (The Damaged Laptop)",
+        theme: "Responsibility",
+        prompt_type: "Situational",
+        situation_context: "While playing rough in the computer lab after school, you accidentally knock a school laptop off the desk, cracking its screen. Nobody saw it happen.",
+        default_slot1: "Dismissal time in the computer lab; unsupervised excitement after finishing a project.",
+        default_slot2: "A reckless game of tag; an elbow catches the power cord; the sickening crunch of the laptop hitting the linoleum.",
+        default_slot3: "The Turning Point: The agony of hiding the computer back in the charging cart versus reporting the damage to the lab technician.",
+        default_slot4: "Resolution: Facing the discipline master; offering to contribute your allowance; a lighter conscience despite detention.",
+        pivotal_scene_prompt: "Develop the Turning Point (3-4 sentences): Show the temptation to conceal the damage, the physical signs of panic, and the costly decision to walk toward the teacher's desk.",
+        suggested_phrase_ids: ["phr-002", "phr-005", "phr-012"]
+      },
+      {
+        id: "prm-003",
+        title: "Speaking Up (The Canteen Incident)",
+        theme: "Moral Courage",
+        prompt_type: "Theme-Based",
+        situation_context: "An unpopular, quiet classmate is falsely accused by the class monitor of pushing someone down and making them drop their tray.",
+        default_slot1: "Bustling, chaotic canteen at recess. The noisy lunch queue and clattering trays.",
+        default_slot2: "An accidental stumble causes a tray of noodles to spill; the monitor immediately blames the quiet boy.",
+        default_slot3: "The Turning Point: You witnessed the actual slip-up. Staying silent avoids social friction, but speaking up means defying the popular monitor.",
+        default_slot4: "Resolution: Stepping forward to clarify the truth; earning the quiet boy's gratitude; learning that courage requires a voice.",
+        pivotal_scene_prompt: "Develop the Turning Point (3-4 sentences): Show the crowd taking sides, your internal fear of becoming an outcast, and the physical moment you speak up.",
+        suggested_phrase_ids: ["phr-003", "phr-007", "phr-010"]
+      },
+      {
+        id: "prm-004",
+        title: "An Unintended Consequence (The Prank)",
+        theme: "Honesty & Remorse",
+        prompt_type: "Picture-Based",
+        situation_context: "You hide a classmate's pencil box inside the classroom locker as a playful joke, but it leads to a full investigation where another innocent student is suspected of theft.",
+        default_slot1: "Morning homeroom before the teacher arrives; a playful prank played on a friend.",
+        default_slot2: "The friend searches in genuine tears; the teacher steps in and begins questioning innocent students.",
+        default_slot3: "The Turning Point: The snowballing guilt. What began as harmless fun has turned into a theft inquiry. You must step forward and own the shame.",
+        default_slot4: "Resolution: Confessing fully; facing the disappointment of teacher and friend; learning the severe boundary between humor and cruelty.",
+        pivotal_scene_prompt: "Develop the Turning Point (3-4 sentences): Show the sudden spike of remorse as an innocent classmate is questioned, and the difficult physical confession.",
+        suggested_phrase_ids: ["phr-006", "phr-008", "phr-011"]
+      }
+    ];
+
+    /**
+     * =========================================================================
+     * 2. INDEXEDDB PERSISTENCE ENGINE (`CompoHelperEnglishDB` v2)
+     * =========================================================================
+     */
+    const DB = {
+      dbName: 'CompoHelperEnglishDB',
+      version: 2,
+      instance: null,
+
+      async init() {
+        return new Promise((resolve, reject) => {
+          const request = indexedDB.open(this.dbName, this.version);
+
+          request.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('strategies')) {
+              const store = db.createObjectStore('strategies', { keyPath: 'id' });
+              store.createIndex('by_box', 'srs_box', { unique: false });
+              store.createIndex('by_due_date', 'due_date', { unique: false });
+              store.createIndex('by_scaffolding', 'scaffolding_level', { unique: false });
+            }
+            if (!db.objectStoreNames.contains('phrases')) {
+              const store = db.createObjectStore('phrases', { keyPath: 'id' });
+              store.createIndex('by_box', 'srs_box', { unique: false });
+              store.createIndex('by_due_date', 'due_date', { unique: false });
+            }
+            if (!db.objectStoreNames.contains('prompts')) {
+              db.createObjectStore('prompts', { keyPath: 'id' });
+            }
+            if (!db.objectStoreNames.contains('config')) {
+              db.createObjectStore('config', { keyPath: 'key' });
+            }
+            if (!db.objectStoreNames.contains('session_logs')) {
+              db.createObjectStore('session_logs', { keyPath: 'date' });
+            }
+          };
+
+          request.onsuccess = async (e) => {
+            this.instance = e.target.result;
+            await this.seedInitialDataIfEmpty();
+            resolve(this.instance);
+          };
+
+          request.onerror = (e) => {
+            console.error('IndexedDB init error:', e.target.error);
+            reject(e.target.error);
+          };
+        });
+      },
+
+      async seedInitialDataIfEmpty() {
+        const count = await this.count('strategies');
+        if (count === 0) {
+          console.log('IndexedDB is empty. Seeding default Upper Primary content...');
+          const tx = this.instance.transaction(['strategies', 'phrases', 'prompts', 'config'], 'readwrite');
+          const sStore = tx.objectStore('strategies');
+          const pStore = tx.objectStore('phrases');
+          const prStore = tx.objectStore('prompts');
+          const cStore = tx.objectStore('config');
+
+          SEED_STRATEGIES.forEach(s => sStore.put(s));
+          SEED_PHRASES.forEach(p => pStore.put(p));
+          SEED_PROMPTS.forEach(pr => prStore.put(pr));
+          cStore.put(DEFAULT_CONFIG);
+
+          return new Promise(r => tx.oncomplete = r);
+        }
+      },
+
+      async getAll(storeName) {
+        return new Promise((resolve, reject) => {
+          const tx = this.instance.transaction(storeName, 'readonly');
+          const store = tx.objectStore(storeName);
+          const req = store.getAll();
+          req.onsuccess = () => resolve(req.result || []);
+          req.onerror = () => reject(req.error);
+        });
+      },
+
+      async get(storeName, key) {
+        return new Promise((resolve, reject) => {
+          const tx = this.instance.transaction(storeName, 'readonly');
+          const store = tx.objectStore(storeName);
+          const req = store.get(key);
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+      },
+
+      async put(storeName, item) {
+        return new Promise((resolve, reject) => {
+          const tx = this.instance.transaction(storeName, 'readwrite');
+          const store = tx.objectStore(storeName);
+          const req = store.put(item);
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+      },
+
+      async count(storeName) {
+        return new Promise((resolve, reject) => {
+          const tx = this.instance.transaction(storeName, 'readonly');
+          const store = tx.objectStore(storeName);
+          const req = store.count();
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+      },
+
+      async resetToDefaultSeeds() {
+        if (!confirm('Are you sure you want to reset all cards, phrases, and logs to the factory default seeds? This will erase custom additions.')) {
+          return;
+        }
+        const tx = this.instance.transaction(['strategies', 'phrases', 'prompts', 'config', 'session_logs'], 'readwrite');
+        tx.objectStore('strategies').clear();
+        tx.objectStore('phrases').clear();
+        tx.objectStore('prompts').clear();
+        tx.objectStore('session_logs').clear();
+        tx.objectStore('config').clear();
+
+        await new Promise(r => tx.oncomplete = r);
+        await this.seedInitialDataIfEmpty();
+        alert('Database successfully reset to default Upper Primary seeds.');
+        location.reload();
+      },
+
+      async exportBackupJSON() {
+        const strategies = await this.getAll('strategies');
+        const phrases = await this.getAll('phrases');
+        const prompts = await this.getAll('prompts');
+        const config = (await this.get('config', 'settings')) || DEFAULT_CONFIG;
+        const session_logs = await this.getAll('session_logs');
+
+        const backupData = {
+          schema_version: '2.1.0',
+          app_identifier: 'compo-helper-english',
+          exported_at: new Date().toISOString(),
+          config,
+          strategies,
+          phrases,
+          prompts,
+          session_logs
+        };
+
+        const jsonStr = JSON.stringify(backupData, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const dateStr = new Date().toISOString().split('T')[0];
+        a.href = url;
+        a.download = `compo-helper-backup-${dateStr}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      },
+
+      async importBackupJSON(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        try {
+          const text = await file.text();
+          const data = JSON.parse(text);
+
+          if (!data.strategies || !data.phrases) {
+            alert('Invalid backup file: Missing strategies or phrases entities.');
+            return;
+          }
+
+          if (!confirm(`Restore backup from ${data.exported_at || 'unknown date'}? This will replace your current data.`)) {
+            return;
+          }
+
+          const tx = this.instance.transaction(['strategies', 'phrases', 'prompts', 'config', 'session_logs'], 'readwrite');
+          tx.objectStore('strategies').clear();
+          tx.objectStore('phrases').clear();
+          tx.objectStore('prompts').clear();
+          tx.objectStore('config').clear();
+          tx.objectStore('session_logs').clear();
+
+          const sStore = tx.objectStore('strategies');
+          const pStore = tx.objectStore('phrases');
+          const prStore = tx.objectStore('prompts');
+          const cStore = tx.objectStore('config');
+          const slStore = tx.objectStore('session_logs');
+
+          data.strategies.forEach(s => sStore.put(s));
+          data.phrases.forEach(p => pStore.put(p));
+          (data.prompts || []).forEach(pr => prStore.put(pr));
+          cStore.put(data.config || DEFAULT_CONFIG);
+          (data.session_logs || []).forEach(sl => slStore.put(sl));
+
+          await new Promise((r, rej) => {
+            tx.oncomplete = r;
+            tx.onerror = rej;
+          });
+
+          alert('Backup successfully restored!');
+          location.reload();
+        } catch (err) {
+          alert('Error restoring JSON backup: ' + err.message);
+        }
+      }
+    };
+
+    /**
+     * =========================================================================
+     * 3. SPACED REPETITION SCHEDULING ENGINE (Leitner 5-Box + Exam Clamping)
+     * =========================================================================
+     */
+    const SRS = {
+      boxIntervals: {
+        1: 1,    // Box 1: 1 day
+        2: 3,    // Box 2: 3 days
+        3: 7,    // Box 3: 7 days
+        4: 14,   // Box 4: 14 days
+        5: 30    // Box 5: 30 days
+      },
+
+      clampInterval(daysToAdd, examDateStr) {
+        if (!examDateStr) return daysToAdd;
+        const today = new Date();
+        const examDate = new Date(examDateStr);
+        const diffDays = Math.ceil((examDate - today) / (1000 * 60 * 60 * 24));
+
+        if (diffDays <= 0) return 1;
+        if (daysToAdd >= diffDays) {
+          return Math.max(1, Math.floor(diffDays * 0.6));
+        }
+        return daysToAdd;
+      },
+
+      calculateNextSchedule(currentBox, rating, examDateStr) {
+        let newBox = currentBox || 1;
+        let intervalDays = 1;
+
+        if (rating === 1) { // Again
+          newBox = 1;
+          intervalDays = 1;
+        } else if (rating === 2) { // Good
+          newBox = Math.min(5, newBox + 1);
+          intervalDays = this.boxIntervals[newBox];
+        } else if (rating === 3) { // Easy
+          newBox = Math.min(5, newBox + 2);
+          intervalDays = Math.round(this.boxIntervals[newBox] * 1.5);
+        }
+
+        intervalDays = this.clampInterval(intervalDays, examDateStr);
+
+        const nextDate = new Date();
+        nextDate.setDate(nextDate.getDate() + intervalDays);
+        const dueDate = nextDate.toISOString().split('T')[0];
+
+        return {
+          newBox,
+          intervalDays,
+          dueDate
+        };
+      },
+
+      async buildDailyQueue(config) {
+        const today = new Date().toISOString().split('T')[0];
+        const allStrategies = await DB.getAll('strategies');
+
+        // Due cards: due_date <= today AND total_reviews > 0
+        const dueCards = allStrategies.filter(c => c.total_reviews > 0 && c.due_date <= today);
+        // Sort due cards: lowest box first, then highest lapses
+        dueCards.sort((a, b) => (a.srs_box - b.srs_box) || (b.lapses - a.lapses));
+
+        const reviewLimit = config.daily_review_limit || 10;
+        const selectedDue = dueCards.slice(0, reviewLimit);
+
+        // New cards: total_reviews === 0
+        let selectedNew = [];
+        const newLimit = config.daily_new_limit || 2;
+        if (selectedDue.length < reviewLimit) {
+          const newCards = allStrategies.filter(c => c.total_reviews === 0);
+          selectedNew = newCards.slice(0, newLimit);
+        }
+
+        return [...selectedDue, ...selectedNew];
+      }
+    };
+
+    /**
+     * =========================================================================
+     * 4. ZERO-DEPENDENCY RFC-4180 CSV UTILITIES
+     * =========================================================================
+     */
+    const CSV = {
+      parseCSV(text) {
+        const rows = [];
+        let currentRow = [];
+        let currentCell = '';
+        let insideQuote = false;
+
+        for (let i = 0; i < text.length; i++) {
+          const c = text[i];
+          const next = text[i + 1];
+
+          if (insideQuote) {
+            if (c === '"') {
+              if (next === '"') {
+                currentCell += '"';
+                i++;
+              } else {
+                insideQuote = false;
+              }
+            } else {
+              currentCell += c;
+            }
+          } else {
+            if (c === '"') {
+              insideQuote = true;
+            } else if (c === ',') {
+              currentRow.push(currentCell.trim());
+              currentCell = '';
+            } else if (c === '\r' && next === '\n') {
+              currentRow.push(currentCell.trim());
+              rows.push(currentRow);
+              currentRow = [];
+              currentCell = '';
+              i++;
+            } else if (c === '\n' || c === '\r') {
+              currentRow.push(currentCell.trim());
+              rows.push(currentRow);
+              currentRow = [];
+              currentCell = '';
+            } else {
+              currentCell += c;
+            }
+          }
+        }
+        if (currentCell.length > 0 || currentRow.length > 0) {
+          currentRow.push(currentCell.trim());
+          rows.push(currentRow);
+        }
+        return rows.filter(r => r.length > 1 || (r.length === 1 && r[0] !== ''));
+      },
+
+      serializeCSV(rows) {
+        return rows.map(row => {
+          return row.map(val => {
+            const str = String(val ?? '');
+            if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+              return '"' + str.replace(/"/g, '""') + '"';
+            }
+            return str;
+          }).join(',');
+        }).join('\r\n');
+      },
+
+      async exportStrategiesCSV() {
+        const cards = await DB.getAll('strategies');
+        const headers = ['id', 'scaffolding_level', 'category', 'sub_category', 'theme_tags', 'title', 'scenario_prompt', 'guiding_question', 'hints', 'model_answer', 'technique_breakdown', 'anti_pattern_warning'];
+        const rows = [headers];
+
+        cards.forEach(c => {
+          rows.push([
+            c.id,
+            c.scaffolding_level,
+            c.category,
+            c.sub_category,
+            (c.theme_tags || []).join(';'),
+            c.title,
+            c.scenario_prompt,
+            c.guiding_question,
+            (c.hints || []).join(';'),
+            c.model_answer,
+            c.technique_breakdown,
+            c.anti_pattern_warning
+          ]);
+        });
+
+        const csvContent = this.serializeCSV(rows);
+        this.downloadCSV(csvContent, 'strategies.csv');
+      },
+
+      async exportPhrasesCSV() {
+        const phrases = await DB.getAll('phrases');
+        const headers = ['id', 'phrase', 'meaning', 'example_sentence', 'theme_tags', 'functional_tags', 'suitable_slots', 'anti_pattern'];
+        const rows = [headers];
+
+        phrases.forEach(p => {
+          rows.push([
+            p.id,
+            p.phrase,
+            p.meaning,
+            p.example_sentence,
+            (p.theme_tags || []).join(';'),
+            (p.functional_tags || []).join(';'),
+            (p.suitable_slots || []).join(';'),
+            p.anti_pattern
+          ]);
+        });
+
+        const csvContent = this.serializeCSV(rows);
+        this.downloadCSV(csvContent, 'phrases.csv');
+      },
+
+      async exportPromptsCSV() {
+        const prompts = await DB.getAll('prompts');
+        const headers = ['id', 'title', 'theme', 'prompt_type', 'situation_context', 'default_slot1', 'default_slot2', 'default_slot3', 'default_slot4', 'pivotal_scene_prompt', 'suggested_phrase_ids'];
+        const rows = [headers];
+
+        prompts.forEach(pr => {
+          rows.push([
+            pr.id,
+            pr.title,
+            pr.theme,
+            pr.prompt_type,
+            pr.situation_context,
+            pr.default_slot1,
+            pr.default_slot2,
+            pr.default_slot3,
+            pr.default_slot4,
+            pr.pivotal_scene_prompt,
+            (pr.suggested_phrase_ids || []).join(';')
+          ]);
+        });
+
+        const csvContent = this.serializeCSV(rows);
+        this.downloadCSV(csvContent, 'prompts.csv');
+      },
+
+      downloadCSV(content, filename) {
+        const blob = new Blob(['\ufeff' + content], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+      },
+
+      async importStrategiesCSV(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        try {
+          const text = await file.text();
+          const rows = this.parseCSV(text);
+          if (rows.length < 2) {
+            alert('CSV contains no data rows.');
+            return;
+          }
+
+          const headers = rows[0].map(h => h.toLowerCase());
+          const idIdx = headers.indexOf('id');
+          const titleIdx = headers.indexOf('title');
+          const scenIdx = headers.indexOf('scenario_prompt');
+          const guidIdx = headers.indexOf('guiding_question');
+          const modelIdx = headers.indexOf('model_answer');
+
+          if (idIdx === -1 || scenIdx === -1 || modelIdx === -1) {
+            alert('CSV missing mandatory headers: id, scenario_prompt, model_answer');
+            return;
+          }
+
+          const today = new Date().toISOString().split('T')[0];
+          let imported = 0;
+
+          for (let i = 1; i < rows.length; i++) {
+            const r = rows[i];
+            if (!r[idIdx]) continue;
+
+            const existing = (await DB.get('strategies', r[idIdx])) || {};
+
+            const item = {
+              id: r[idIdx],
+              scaffolding_level: r[headers.indexOf('scaffolding_level')] || 'LEVEL_2_GUIDED',
+              category: r[headers.indexOf('category')] || 'MOTIVATION_CONFLICT',
+              sub_category: r[headers.indexOf('sub_category')] || 'General',
+              theme_tags: (r[headers.indexOf('theme_tags')] || '').split(';').map(t => t.trim()).filter(Boolean),
+              title: r[titleIdx] || 'Imported Strategy',
+              scenario_prompt: r[scenIdx] || '',
+              guiding_question: r[guidIdx] || '',
+              hints: (r[headers.indexOf('hints')] || '').split(';').map(h => h.trim()).filter(Boolean),
+              model_answer: r[modelIdx] || '',
+              technique_breakdown: r[headers.indexOf('technique_breakdown')] || '',
+              anti_pattern_warning: r[headers.indexOf('anti_pattern_warning')] || '',
+              srs_box: existing.srs_box || 1,
+              srs_interval: existing.srs_interval || 1.0,
+              due_date: existing.due_date || today,
+              last_reviewed: existing.last_reviewed || null,
+              total_reviews: existing.total_reviews || 0,
+              lapses: existing.lapses || 0
+            };
+
+            await DB.put('strategies', item);
+            imported++;
+          }
+
+          alert(`Successfully imported/updated ${imported} strategy cards.`);
+          location.reload();
+        } catch (err) {
+          alert('Error importing CSV: ' + err.message);
+        }
+      },
+
+      async importPhrasesCSV(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        try {
+          const text = await file.text();
+          const rows = this.parseCSV(text);
+          if (rows.length < 2) return;
+
+          const headers = rows[0].map(h => h.toLowerCase());
+          const idIdx = headers.indexOf('id');
+          const phrIdx = headers.indexOf('phrase');
+          const meanIdx = headers.indexOf('meaning');
+          const antiIdx = headers.indexOf('anti_pattern');
+
+          if (idIdx === -1 || phrIdx === -1) {
+            alert('CSV missing mandatory headers: id, phrase');
+            return;
+          }
+
+          const today = new Date().toISOString().split('T')[0];
+          let imported = 0;
+
+          for (let i = 1; i < rows.length; i++) {
+            const r = rows[i];
+            if (!r[idIdx]) continue;
+
+            const existing = (await DB.get('phrases', r[idIdx])) || {};
+
+            const item = {
+              id: r[idIdx],
+              phrase: r[phrIdx],
+              meaning: r[meanIdx] || '',
+              example_sentence: r[headers.indexOf('example_sentence')] || '',
+              theme_tags: (r[headers.indexOf('theme_tags')] || '').split(';').map(t => t.trim()).filter(Boolean),
+              functional_tags: (r[headers.indexOf('functional_tags')] || '').split(';').map(t => t.trim()).filter(Boolean),
+              suitable_slots: (r[headers.indexOf('suitable_slots')] || '').split(';').map(t => t.trim()).filter(Boolean),
+              anti_pattern: r[antiIdx] || 'Use purposefully.',
+              srs_box: existing.srs_box || 1,
+              srs_interval: existing.srs_interval || 1.0,
+              due_date: existing.due_date || today,
+              last_reviewed: existing.last_reviewed || null,
+              total_reviews: existing.total_reviews || 0,
+              lapses: existing.lapses || 0
+            };
+
+            await DB.put('phrases', item);
+            imported++;
+          }
+
+          alert(`Successfully imported/updated ${imported} phrase cards.`);
+          location.reload();
+        } catch (err) {
+          alert('Error importing Phrases CSV: ' + err.message);
+        }
+      }
+    };
+
+    /**
+     * =========================================================================
+     * 5. TEXT-TO-SPEECH (Web Speech API with en-SG preference)
+     * =========================================================================
+     */
+    const TTS = {
+      voices: [],
+      selectedVoice: null,
+
+      init() {
+        if ('speechSynthesis' in window) {
+          const loadVoices = () => {
+            this.voices = window.speechSynthesis.getVoices().filter(v => v.lang.startsWith('en'));
+            this.selectBestVoice();
+            this.populateSettingsVoiceSelect();
+          };
+          loadVoices();
+          window.speechSynthesis.onvoiceschanged = loadVoices;
+        }
+      },
+
+      selectBestVoice() {
+        if (this.voices.length === 0) return;
+        // Priority: en-SG -> en-GB -> en-US -> first available English
+        this.selectedVoice =
+          this.voices.find(v => v.lang === 'en-SG' || v.lang.includes('Singapore')) ||
+          this.voices.find(v => v.lang === 'en-GB' || v.lang.includes('Great Britain')) ||
+          this.voices.find(v => v.lang === 'en-US') ||
+          this.voices[0];
+      },
+
+      populateSettingsVoiceSelect() {
+        const select = document.getElementById('setting-voice-select');
+        if (!select || this.voices.length === 0) return;
+
+        select.innerHTML = '';
+        this.voices.forEach(v => {
+          const opt = document.createElement('option');
+          opt.value = v.name;
+          opt.textContent = `${v.name} (${v.lang})`;
+          if (this.selectedVoice && this.selectedVoice.name === v.name) {
+            opt.selected = true;
+          }
+          select.appendChild(opt);
+        });
+      },
+
+      speak(text) {
+        if (!('speechSynthesis' in window) || !text) return;
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        if (this.selectedVoice) {
+          utterance.voice = this.selectedVoice;
+        }
+        utterance.rate = 0.92;
+        utterance.pitch = 1.0;
+        window.speechSynthesis.speak(utterance);
+      },
+
+      speakCurrentCard() {
+        const card = UI.session.currentCard;
+        if (!card) return;
+        const text = `${card.title}. Scenario: ${card.scenario_prompt}. Objective: ${card.guiding_question}`;
+        this.speak(text);
+      },
+
+      testVoice() {
+        this.speak("A cold sweat prickled his neck as he summoned every ounce of courage.");
+      }
+    };
+
+    /**
+     * =========================================================================
+     * 6. UI CONTROLLER & SINGLE-PAGE STATE MACHINE
+     * =========================================================================
+     */
+    const UI = {
+      config: DEFAULT_CONFIG,
+      session: {
+        active: false,
+        stage: 1, // 1: micro-drills, 2: macro-drill, 3: complete
+        queue: [],
+        currentIndex: 0,
+        currentCard: null,
+        revealed: false,
+        hintsRevealedCount: 0,
+        timerInterval: null,
+        elapsedSeconds: 0,
+        s2CountdownSeconds: 300,
+        s2TimerInterval: null,
+        selectedPrompt: null,
+        ratingsLog: { 1: 0, 2: 0, 3: 0 }
+      },
+
+      async init() {
+        this.config = (await DB.get('config', 'settings')) || DEFAULT_CONFIG;
+        TTS.init();
+        this.setupKeyboardListeners();
+        this.renderDashboard();
+      },
+
+      showView(viewName) {
+        document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+        const target = document.getElementById(`view-${viewName}`);
+        if (target) {
+          target.classList.remove('hidden');
+          window.scrollTo(0, 0);
+        }
+        if (viewName === 'dashboard') {
+          this.renderDashboard();
+        } else if (viewName === 'phrase_bank') {
+          this.renderPhraseBank();
+        } else if (viewName === 'settings') {
+          this.renderSettings();
+        }
+      },
+
+      async renderDashboard() {
+        // Exam Days calculation
+        const examDate = new Date(this.config.exam_date || '2027-09-25');
+        const today = new Date();
+        const diffDays = Math.ceil((examDate - today) / (1000 * 60 * 60 * 24));
+        const badge = document.getElementById('dash-exam-badge');
+        if (badge) {
+          badge.textContent = `Target Exam: ${diffDays > 0 ? diffDays + ' days left' : 'Past date'}`;
+        }
+
+        // Daily Queue count
+        const queue = await SRS.buildDailyQueue(this.config);
+        const queueSummary = document.getElementById('dash-queue-summary');
+        const queueDetail = document.getElementById('dash-queue-detail');
+        if (queueSummary) {
+          if (queue.length === 0) {
+            queueSummary.textContent = 'All Caught Up! 🎉';
+            queueDetail.textContent = 'Great job. 15 minutes of spaced recall complete for today.';
+            document.getElementById('btn-start-session').textContent = '▶ Review Deck Anyway';
+          } else {
+            queueSummary.textContent = `${queue.length} Active Cards Due`;
+            queueDetail.textContent = '10 Mins Micro-Drills (Internal Dilemmas & Critique) + 5 Mins Macro Plotting';
+            document.getElementById('btn-start-session').textContent = '▶ Start 15-Min Routine';
+          }
+        }
+
+        // Leitner Boxes Distribution
+        const allCards = await DB.getAll('strategies');
+        document.getElementById('dash-total-cards').textContent = `${allCards.length} total strategy cards`;
+
+        const boxCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+        allCards.forEach(c => {
+          const b = c.srs_box || 1;
+          boxCounts[b] = (boxCounts[b] || 0) + 1;
+        });
+
+        const container = document.getElementById('dash-leitner-boxes');
+        if (container) {
+          container.innerHTML = `
+            <div class="leitner-box-card">
+              <div class="box-title">Box 1</div>
+              <div class="box-count">${boxCounts[1]}</div>
+              <div class="box-interval">1 Day</div>
+            </div>
+            <div class="leitner-box-card">
+              <div class="box-title">Box 2</div>
+              <div class="box-count">${boxCounts[2]}</div>
+              <div class="box-interval">3 Days</div>
+            </div>
+            <div class="leitner-box-card">
+              <div class="box-title">Box 3</div>
+              <div class="box-count">${boxCounts[3]}</div>
+              <div class="box-interval">7 Days</div>
+            </div>
+            <div class="leitner-box-card">
+              <div class="box-title">Box 4</div>
+              <div class="box-count">${boxCounts[4]}</div>
+              <div class="box-interval">14 Days</div>
+            </div>
+            <div class="leitner-box-card">
+              <div class="box-title">Box 5</div>
+              <div class="box-count">${boxCounts[5]}</div>
+              <div class="box-interval">30 Days (Mastered)</div>
+            </div>
+          `;
+        }
+      },
+
+      /**
+       * Stage 1: Micro-Drills Workflow
+       */
+      async startDailySession() {
+        let queue = await SRS.buildDailyQueue(this.config);
+        if (queue.length === 0) {
+          // If no cards due, offer unconstrained review of first 8 cards
+          const all = await DB.getAll('strategies');
+          queue = all.slice(0, 8);
+        }
+
+        this.session.active = true;
+        this.session.stage = 1;
+        this.session.queue = queue;
+        this.session.currentIndex = 0;
+        this.session.ratingsLog = { 1: 0, 2: 0, 3: 0 };
+        this.session.elapsedSeconds = 0;
+
+        clearInterval(this.session.timerInterval);
+        this.session.timerInterval = setInterval(() => {
+          this.session.elapsedSeconds++;
+          const mins = String(Math.floor(this.session.elapsedSeconds / 60)).padStart(2, '0');
+          const secs = String(this.session.elapsedSeconds % 60).padStart(2, '0');
+          const timerElem = document.getElementById('s1-timer');
+          if (timerElem) timerElem.textContent = `${mins}:${secs}`;
+        }, 1000);
+
+        this.showView('stage1');
+        this.loadCurrentMicroCard();
+      },
+
+      loadCurrentMicroCard() {
+        const card = this.session.queue[this.session.currentIndex];
+        this.session.currentCard = card;
+        this.session.revealed = false;
+        this.session.hintsRevealedCount = 0;
+
+        // Counter & Progress
+        const count = this.session.queue.length;
+        const currentNum = this.session.currentIndex + 1;
+        document.getElementById('s1-counter').textContent = `Card ${currentNum} of ${count}`;
+        document.getElementById('s1-progress').style.width = `${(currentNum / count) * 100}%`;
+
+        // Scaffolding Badge Styling
+        const levelBadge = document.getElementById('s1-level-badge');
+        const level = card.scaffolding_level || 'LEVEL_2_GUIDED';
+        levelBadge.className = 'badge';
+        if (level === 'LEVEL_1_RECALL') {
+          levelBadge.classList.add('badge-level-1');
+          levelBadge.textContent = 'Level 1: Recall';
+        } else if (level === 'LEVEL_2_GUIDED') {
+          levelBadge.classList.add('badge-level-2');
+          levelBadge.textContent = 'Level 2: Guided';
+        } else if (level === 'LEVEL_3_INDEPENDENT') {
+          levelBadge.classList.add('badge-level-3');
+          levelBadge.textContent = 'Level 3: Independent';
+        } else if (level === 'LEVEL_4_EVALUATE') {
+          levelBadge.classList.add('badge-level-4');
+          levelBadge.textContent = 'Level 4: Critique & Revise';
+        }
+
+        document.getElementById('s1-category-badge').textContent = (card.category || 'Strategy').replace(/_/g, ' ');
+        document.getElementById('s1-theme-badge').textContent = (card.theme_tags || ['General'])[0];
+
+        // Scenario & Objective
+        const scenarioLabel = document.getElementById('s1-scenario-label');
+        if (level === 'LEVEL_4_EVALUATE') {
+          scenarioLabel.textContent = 'Draft to Critique (Find the structural flaw):';
+        } else {
+          scenarioLabel.textContent = 'Scenario Prompt:';
+        }
+
+        document.getElementById('s1-scenario-text').textContent = card.scenario_prompt;
+        document.getElementById('s1-challenge-text').textContent = card.guiding_question;
+
+        // Progressive Hints setup
+        const hints = card.hints || [];
+        document.getElementById('s1-hint-count').textContent = `0/${hints.length}`;
+        const hintsContainer = document.getElementById('s1-hints-container');
+        hintsContainer.classList.add('hidden');
+        document.getElementById('s1-hints-list').innerHTML = '';
+
+        // Clean scratchpad & hide revealed block
+        document.getElementById('s1-scratchpad').value = '';
+        document.getElementById('s1-flip-container').classList.remove('hidden');
+        document.getElementById('s1-revealed').classList.add('hidden');
+
+        // Scroll to card top
+        window.scrollTo(0, 0);
+      },
+
+      revealNextHint() {
+        const card = this.session.currentCard;
+        if (!card || !card.hints || card.hints.length === 0) return;
+
+        const hintsContainer = document.getElementById('s1-hints-container');
+        hintsContainer.classList.remove('hidden');
+
+        if (this.session.hintsRevealedCount < card.hints.length) {
+          this.session.hintsRevealedCount++;
+          const hintText = card.hints[this.session.hintsRevealedCount - 1];
+          const div = document.createElement('div');
+          div.className = 'hint-step';
+          div.innerHTML = `<strong>Hint ${this.session.hintsRevealedCount}:</strong> ${hintText}`;
+          document.getElementById('s1-hints-list').appendChild(div);
+          document.getElementById('s1-hint-count').textContent = `${this.session.hintsRevealedCount}/${card.hints.length}`;
+        }
+      },
+
+      flipMicroCard() {
+        if (this.session.revealed) return;
+        this.session.revealed = true;
+
+        const card = this.session.currentCard;
+        const answerLabel = document.getElementById('s1-answer-label');
+        if (card.scaffolding_level === 'LEVEL_4_EVALUATE') {
+          answerLabel.textContent = 'Critique & Purposeful Revision:';
+        } else {
+          answerLabel.textContent = 'Model Scene Development:';
+        }
+
+        document.getElementById('s1-model-answer').textContent = card.model_answer;
+        document.getElementById('s1-breakdown-text').textContent = card.technique_breakdown;
+        document.getElementById('s1-antipattern-text').textContent = card.anti_pattern_warning || 'Avoid forced clichés; let actions convey character.';
+
+        document.getElementById('s1-flip-container').classList.add('hidden');
+        document.getElementById('s1-revealed').classList.remove('hidden');
+      },
+
+      async gradeCurrentCard(rating) {
+        if (!this.session.revealed) {
+          this.flipMicroCard();
+          return;
+        }
+
+        const card = this.session.currentCard;
+        this.session.ratingsLog[rating] = (this.session.ratingsLog[rating] || 0) + 1;
+
+        // Compute Leitner advancement
+        const sched = SRS.calculateNextSchedule(card.srs_box, rating, this.config.exam_date);
+        card.srs_box = sched.newBox;
+        card.srs_interval = sched.intervalDays;
+        card.due_date = sched.dueDate;
+        card.last_reviewed = new Date().toISOString().split('T')[0];
+        card.total_reviews = (card.total_reviews || 0) + 1;
+        if (rating === 1) card.lapses = (card.lapses || 0) + 1;
+
+        await DB.put('strategies', card);
+
+        // Next card or transition to Stage 2
+        this.session.currentIndex++;
+        if (this.session.currentIndex < this.session.queue.length) {
+          this.loadCurrentMicroCard();
+        } else {
+          clearInterval(this.session.timerInterval);
+          this.startStage2MacroDrill();
+        }
+      },
+
+      /**
+       * Stage 2: Macro-Drill Workflow
+       */
+      async startStage2MacroDrill() {
+        this.session.stage = 2;
+        const prompts = await DB.getAll('prompts');
+        // Pick random prompt
+        const prompt = prompts[Math.floor(Math.random() * prompts.length)] || SEED_PROMPTS[0];
+        this.session.selectedPrompt = prompt;
+
+        document.getElementById('s2-theme-badge').textContent = `Theme: ${prompt.theme}`;
+        document.getElementById('s2-prompt-title').textContent = prompt.title;
+        document.getElementById('s2-context-text').textContent = prompt.situation_context;
+        document.getElementById('s2-pivotal-challenge').textContent = prompt.pivotal_scene_prompt;
+
+        // Initialize skeleton textareas
+        document.getElementById('s2-slot1').value = prompt.default_slot1 || '';
+        document.getElementById('s2-slot2').value = prompt.default_slot2 || '';
+        document.getElementById('s2-slot3').value = prompt.default_slot3 || '';
+        document.getElementById('s2-slot4').value = prompt.default_slot4 || '';
+        document.getElementById('s2-scene-draft').value = '';
+
+        // Load suggested phrases chips
+        const phraseContainer = document.getElementById('s2-phrase-chips');
+        phraseContainer.innerHTML = '';
+        const allPhrases = await DB.getAll('phrases');
+        const relevantPhrases = allPhrases.slice(0, 6);
+
+        relevantPhrases.forEach(p => {
+          const chip = document.createElement('div');
+          chip.className = 'chip';
+          chip.textContent = `+ ${p.phrase}`;
+          chip.title = `${p.meaning} (Anti-pattern: ${p.anti_pattern})`;
+          chip.onclick = () => {
+            const textarea = document.getElementById('s2-scene-draft');
+            textarea.value = (textarea.value ? textarea.value + ' ' : '') + p.phrase;
+            textarea.focus();
+          };
+          phraseContainer.appendChild(chip);
+        });
+
+        // 5-Minute Countdown Timer
+        this.session.s2CountdownSeconds = 300;
+        clearInterval(this.session.s2TimerInterval);
+        const timerBadge = document.getElementById('s2-countdown');
+        timerBadge.className = 'timer-badge';
+
+        this.session.s2TimerInterval = setInterval(() => {
+          this.session.s2CountdownSeconds--;
+          const mins = String(Math.floor(this.session.s2CountdownSeconds / 60)).padStart(2, '0');
+          const secs = String(this.session.s2CountdownSeconds % 60).padStart(2, '0');
+          timerBadge.textContent = `${mins}:${secs}`;
+
+          if (this.session.s2CountdownSeconds <= 60 && this.session.s2CountdownSeconds > 30) {
+            timerBadge.className = 'timer-badge timer-warning';
+          } else if (this.session.s2CountdownSeconds <= 30) {
+            timerBadge.className = 'timer-badge timer-danger';
+          }
+
+          if (this.session.s2CountdownSeconds <= 0) {
+            clearInterval(this.session.s2TimerInterval);
+          }
+        }, 1000);
+
+        this.showView('stage2');
+      },
+
+      /**
+       * Complete Routine & Save Session
+       */
+      async completeSession() {
+        clearInterval(this.session.s2TimerInterval);
+        this.session.active = false;
+        this.session.stage = 3;
+
+        const dateStr = new Date().toISOString().split('T')[0];
+        const sessionLog = {
+          date: dateStr,
+          stage1_reviews_completed: this.session.queue.length,
+          stage1_ratings: this.session.ratingsLog,
+          stage2_prompt_id: this.session.selectedPrompt ? this.session.selectedPrompt.id : 'prm-001',
+          stage2_prompt_title: this.session.selectedPrompt ? this.session.selectedPrompt.title : '',
+          stage2_slot1_text: document.getElementById('s2-slot1').value,
+          stage2_slot2_text: document.getElementById('s2-slot2').value,
+          stage2_slot3_text: document.getElementById('s2-slot3').value,
+          stage2_slot4_text: document.getElementById('s2-slot4').value,
+          stage2_pivotal_scene_text: document.getElementById('s2-scene-draft').value,
+          duration_seconds: this.session.elapsedSeconds + (300 - this.session.s2CountdownSeconds),
+          completed: true
+        };
+
+        await DB.put('session_logs', sessionLog);
+
+        // Format Composition Plan Card for Summary
+        const planOutput = document.getElementById('summary-plan-output');
+        const planText = 
+`COMPOSITION PLAN CARD: ${sessionLog.stage2_prompt_title}
+Date: ${dateStr}
+
+[1. Opening]:
+${sessionLog.stage2_slot1_text || '(Not filled)'}
+
+[2. Build-up (Causal Escalation)]:
+${sessionLog.stage2_slot2_text || '(Not filled)'}
+
+[3. Climax (Internal Dilemma)]:
+${sessionLog.stage2_slot3_text || '(Not filled)'}
+
+[4. Resolution]:
+${sessionLog.stage2_slot4_text || '(Not filled)'}
+
+=== ELABORATED PIVOTAL TURNING POINT SCENE ===
+${sessionLog.stage2_pivotal_scene_text || '(No drafted scene entered)'}`;
+
+        planOutput.textContent = planText;
+        this.showView('summary');
+      },
+
+      copyPlanCard() {
+        const text = document.getElementById('summary-plan-output').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          alert('Composition Plan Card copied to clipboard!');
+        });
+      },
+
+      /**
+       * Phrase Bank Explorer View
+       */
+      async renderPhraseBank() {
+        const phrases = await DB.getAll('phrases');
+        const tagFilter = document.getElementById('pb-tag-filter');
+
+        // Populate unique theme tags
+        const themes = new Set();
+        phrases.forEach(p => (p.theme_tags || []).forEach(t => themes.add(t)));
+        tagFilter.innerHTML = '<option value="">All Themes</option>';
+        themes.forEach(t => {
+          const opt = document.createElement('option');
+          opt.value = t;
+          opt.textContent = t;
+          tagFilter.appendChild(opt);
+        });
+
+        this.filterPhraseBank();
+      },
+
+      async filterPhraseBank() {
+        const query = (document.getElementById('pb-search-input').value || '').toLowerCase();
+        const selectedTheme = document.getElementById('pb-tag-filter').value;
+        const selectedSlot = document.getElementById('pb-slot-filter').value;
+
+        const phrases = await DB.getAll('phrases');
+        const container = document.getElementById('pb-cards-grid');
+        container.innerHTML = '';
+
+        const filtered = phrases.filter(p => {
+          const matchQuery = !query ||
+            p.phrase.toLowerCase().includes(query) ||
+            p.meaning.toLowerCase().includes(query) ||
+            (p.theme_tags || []).some(t => t.toLowerCase().includes(query));
+          const matchTheme = !selectedTheme || (p.theme_tags || []).includes(selectedTheme);
+          const matchSlot = !selectedSlot || (p.suitable_slots || []).includes(selectedSlot);
+          return matchQuery && matchTheme && matchSlot;
+        });
+
+        if (filtered.length === 0) {
+          container.innerHTML = '<div class="text-muted" style="grid-column: 1/-1; padding: 2rem; text-align: center;">No matching phrases found.</div>';
+          return;
+        }
+
+        filtered.forEach(p => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.style.marginBottom = '0';
+          card.style.padding = '1.1rem';
+          card.innerHTML = `
+            <div class="flex-between">
+              <span style="font-size: 1.1rem; font-weight: 800; color: var(--primary-light);">${p.phrase}</span>
+              <span class="badge badge-tag">Box ${p.srs_box || 1}</span>
+            </div>
+            <div style="font-size: 0.9rem; color: #cbd5e1; margin: 0.4rem 0;">${p.meaning}</div>
+            <div style="font-size: 0.85rem; font-style: italic; color: #94a3b8; background: rgba(0,0,0,0.2); padding: 0.6rem; border-radius: var(--radius-sm); margin: 0.4rem 0;">
+              "${p.example_sentence}"
+            </div>
+            <div class="chip-container" style="margin: 0.4rem 0;">
+              ${(p.theme_tags || []).map(t => `<span class="badge badge-primary">${t}</span>`).join(' ')}
+              ${(p.suitable_slots || []).map(s => `<span class="badge badge-tag">${s}</span>`).join(' ')}
+            </div>
+            <div class="alert-box alert-danger" style="padding: 0.6rem 0.8rem; margin-top: 0.5rem; font-size: 0.8rem;">
+              <strong>Anti-Pattern:</strong> ${p.anti_pattern}
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      },
+
+      /**
+       * Settings View
+       */
+      async renderSettings() {
+        document.getElementById('setting-exam-date').value = this.config.exam_date || '2027-09-25';
+        document.getElementById('setting-review-limit').value = this.config.daily_review_limit || 10;
+        document.getElementById('setting-new-limit').value = this.config.daily_new_limit || 2;
+        TTS.populateSettingsVoiceSelect();
+      },
+
+      async saveSettings() {
+        this.config.exam_date = document.getElementById('setting-exam-date').value;
+        this.config.daily_review_limit = parseInt(document.getElementById('setting-review-limit').value, 10) || 10;
+        this.config.daily_new_limit = parseInt(document.getElementById('setting-new-limit').value, 10) || 2;
+
+        const voiceName = document.getElementById('setting-voice-select').value;
+        if (voiceName) {
+          TTS.selectedVoice = TTS.voices.find(v => v.name === voiceName);
+        }
+
+        await DB.put('config', { ...this.config, key: 'settings' });
+      },
+
+      /**
+       * Keyboard Shortcuts
+       */
+      setupKeyboardListeners() {
+        window.addEventListener('keydown', (e) => {
+          // If user is typing in a textarea or input, do not trigger shortcuts
+          if (['TEXTAREA', 'INPUT', 'SELECT'].includes(e.target.tagName)) {
+            return;
+          }
+
+          if (this.session.active && this.session.stage === 1) {
+            if (e.code === 'Space' || e.key === ' ') {
+              e.preventDefault();
+              if (!this.session.revealed) {
+                this.flipMicroCard();
+              }
+            } else if (e.key === '1') {
+              e.preventDefault();
+              this.gradeCurrentCard(1);
+            } else if (e.key === '2') {
+              e.preventDefault();
+              this.gradeCurrentCard(2);
+            } else if (e.key === '3') {
+              e.preventDefault();
+              this.gradeCurrentCard(3);
+            } else if (e.key.toLowerCase() === 'h') {
+              e.preventDefault();
+              this.revealNextHint();
+            } else if (e.key.toLowerCase() === 'r') {
+              e.preventDefault();
+              TTS.speakCurrentCard();
+            }
+          }
+        });
+      },
+
+      /**
+       * Card Creator Modal
+       */
+      openNewCardModal(type) {
+        const modal = document.getElementById('modal-edit-card');
+        const title = document.getElementById('modal-card-title');
+        const body = document.getElementById('modal-card-body');
+        modal.classList.remove('hidden');
+
+        if (type === 'strategy') {
+          title.textContent = 'Add Upper Primary Strategy Card';
+          body.innerHTML = `
+            <div>
+              <label style="font-size: 0.8rem; font-weight: 700;">ID (Unique):</label>
+              <input type="text" id="m-strat-id" value="strat-custom-${Date.now().toString().slice(-4)}">
+            </div>
+            <div class="mt-1">
+              <label style="font-size: 0.8rem; font-weight: 700;">Scaffolding Level:</label>
+              <select id="m-strat-level">
+                <option value="LEVEL_1_RECALL">Level 1: Recall</option>
+                <option value="LEVEL_2_GUIDED" selected>Level 2: Guided</option>
+                <option value="LEVEL_3_INDEPENDENT">Level 3: Independent</option>
+                <option value="LEVEL_4_EVALUATE">Level 4: Critique & Revise</option>
+              </select>
+            </div>
+            <div class="mt-1">
+              <label style="font-size: 0.8rem; font-weight: 700;">Title:</label>
+              <input type="text" id="m-strat-title" placeholder="e.g. Developing Guilt Before Confession">
+            </div>
+            <div class="mt-1">
+              <label style="font-size: 0.8rem; font-weight: 700;">Scenario Prompt (or Flawed Draft):</label>
+              <textarea id="m-strat-scenario" rows="3" placeholder="Enter scenario or draft to evaluate..."></textarea>
+            </div>
+            <div class="mt-1">
+              <label style="font-size: 0.8rem; font-weight: 700;">Objective / Challenge Question:</label>
+              <textarea id="m-strat-guidance" rows="2" placeholder="e.g. Do not just state feelings. Use Action + Thought..."></textarea>
+            </div>
+            <div class="mt-1">
+              <label style="font-size: 0.8rem; font-weight: 700;">Model Answer / Revision:</label>
+              <textarea id="m-strat-model" rows="3" placeholder="Exemplary developed scene..."></textarea>
+            </div>
+            <div class="mt-1">
+              <label style="font-size: 0.8rem; font-weight: 700;">Technique Breakdown:</label>
+              <textarea id="m-strat-breakdown" rows="2" placeholder="Why this works..."></textarea>
+            </div>
+            <div class="mt-1">
+              <label style="font-size: 0.8rem; font-weight: 700;">Anti-Pattern Warning:</label>
+              <input type="text" id="m-strat-antipattern" placeholder="When NOT to use this technique...">
+            </div>
+            <div class="mt-2 text-center">
+              <button class="btn btn-primary" onclick="UI.saveNewStrategy()">Save Strategy Card</button>
+            </div>
+          `;
+        } else if (type === 'phrase') {
+          title.textContent = 'Add Phrase Card';
+          body.innerHTML = `
+            <div>
+              <label style="font-size: 0.8rem; font-weight: 700;">ID (Unique):</label>
+              <input type="text" id="m-phr-id" value="phr-custom-${Date.now().toString().slice(-4)}">
+            </div>
+            <div class="mt-1">
+              <label style="font-size: 0.8rem; font-weight: 700;">Target Phrase:</label>
+              <input type="text" id="m-phr-phrase" placeholder="e.g. swallowed the bitter lump in his throat">
+            </div>
+            <div class="mt-1">
+              <label style="font-size: 0.8rem; font-weight: 700;">Meaning:</label>
+              <input type="text" id="m-phr-meaning" placeholder="Meaning and psychological context...">
+            </div>
+            <div class="mt-1">
+              <label style="font-size: 0.8rem; font-weight: 700;">Example Sentence:</label>
+              <textarea id="m-phr-example" rows="2" placeholder="Natural context example..."></textarea>
+            </div>
+            <div class="mt-1">
+              <label style="font-size: 0.8rem; font-weight: 700;">Theme Tags (semicolon separated):</label>
+              <input type="text" id="m-phr-tags" placeholder="Honesty; Guilt; Courage">
+            </div>
+            <div class="mt-1">
+              <label style="font-size: 0.8rem; font-weight: 700;">Mandatory Anti-Pattern Warning:</label>
+              <input type="text" id="m-phr-anti" placeholder="DO NOT use when...">
+            </div>
+            <div class="mt-2 text-center">
+              <button class="btn btn-primary" onclick="UI.saveNewPhrase()">Save Phrase Card</button>
+            </div>
+          `;
+        }
+      },
+
+      closeModal() {
+        document.getElementById('modal-edit-card').classList.add('hidden');
+      },
+
+      async saveNewStrategy() {
+        const id = document.getElementById('m-strat-id').value.trim();
+        const title = document.getElementById('m-strat-title').value.trim();
+        const scenario = document.getElementById('m-strat-scenario').value.trim();
+        const guidance = document.getElementById('m-strat-guidance').value.trim();
+        const model = document.getElementById('m-strat-model').value.trim();
+
+        if (!id || !scenario || !model) {
+          alert('ID, Scenario, and Model Answer are required.');
+          return;
+        }
+
+        const item = {
+          id,
+          scaffolding_level: document.getElementById('m-strat-level').value,
+          category: 'MOTIVATION_CONFLICT',
+          sub_category: 'Custom',
+          theme_tags: ['General'],
+          title: title || 'Custom Strategy',
+          scenario_prompt: scenario,
+          guiding_question: guidance,
+          hints: [],
+          model_answer: model,
+          technique_breakdown: document.getElementById('m-strat-breakdown').value.trim(),
+          anti_pattern_warning: document.getElementById('m-strat-antipattern').value.trim() || 'Use purposefully.',
+          srs_box: 1,
+          srs_interval: 1.0,
+          due_date: new Date().toISOString().split('T')[0],
+          last_reviewed: null,
+          total_reviews: 0,
+          lapses: 0
+        };
+
+        await DB.put('strategies', item);
+        this.closeModal();
+        alert('Strategy card saved successfully!');
+      },
+
+      async saveNewPhrase() {
+        const id = document.getElementById('m-phr-id').value.trim();
+        const phrase = document.getElementById('m-phr-phrase').value.trim();
+        const meaning = document.getElementById('m-phr-meaning').value.trim();
+
+        if (!id || !phrase) {
+          alert('ID and Phrase are required.');
+          return;
+        }
+
+        const item = {
+          id,
+          phrase,
+          meaning,
+          example_sentence: document.getElementById('m-phr-example').value.trim(),
+          theme_tags: (document.getElementById('m-phr-tags').value || 'General').split(';').map(t => t.trim()),
+          functional_tags: ['FAST:Thought'],
+          suitable_slots: ['Climax'],
+          anti_pattern: document.getElementById('m-phr-anti').value.trim() || 'Use purposefully.',
+          srs_box: 1,
+          srs_interval: 1.0,
+          due_date: new Date().toISOString().split('T')[0],
+          last_reviewed: null,
+          total_reviews: 0,
+          lapses: 0
+        };
+
+        await DB.put('phrases', item);
+        this.closeModal();
+        alert('Phrase card saved successfully!');
+      }
+    };
+
+    /**
+     * =========================================================================
+     * 7. SERVICE WORKER REGISTRATION (Sandboxed Origin Guard)
+     * =========================================================================
+     */
+    if (location.protocol.startsWith('http') && 'serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+
+    // Initialize application on DOM ready
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        await DB.init();
+        await UI.init();
+      } catch (err) {
+        console.error('Initialization error:', err);
+      }
+    });
+  </script>
+</body>
+</html>
