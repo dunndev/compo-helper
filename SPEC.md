@@ -482,9 +482,12 @@ To prevent infinite queue replenishment loops (the "always 2 active cards" defec
 
 ---
 
-## 7. Seed Content Strategy (Upper Primary Transition)
+## 7. Seed Content Strategy (Upper Primary Transition & Expansion Pack 1)
 
-### 7.1 Seed Strategy Cards Breakdown (12 High-Leverage Cards)
+The database contains **24 Strategy Cards, 24 Phrase Cards, and 6 Macro Prompts**, covering essential Upper Primary (P5 transition) writing competencies without diluting quality.
+
+### 7.1 Strategy Cards Breakdown (24 Total Cards)
+#### Baseline Seed Cohort (Cards 1–12):
 1. **EVAL-01 (Level 4):** Fixing the "Instant Saint" flaw in a confession scene (Ryan and projector).
 2. **EVAL-02 (Level 4):** Fixing the "Moral Puppet" flaw in a supporting character (Lily's dialogue).
 3. **EVAL-03 (Level 4):** Fixing the "Idiom Dump" in an emotional scene (replacing forced idioms with physical detail).
@@ -498,7 +501,21 @@ To prevent infinite queue replenishment loops (the "always 2 active cards" defec
 11. **SHOW-01 (Level 2):** Showing Internal Panic without emotional labels (trembling hands, shallow breath).
 12. **5W1H-01 (Level 1):** Causal Linkage: Explaining WHY an apology was rejected instead of magically resolving the plot.
 
-### 7.2 Seed Phrase Bank Breakdown (12 Upper Primary Phrases)
+#### Foundation Expansion Pack 1 (Cards 13–24):
+13. **EVAL-04 (Level 4):** Fixing the "Instant Forgiveness" Miracle Resolution (broken Lego spaceship restitution).
+14. **EVAL-05 (Level 4):** Purging the "Weather Report" Introduction (replacing sunny clichés with conflict stakes).
+15. **EVAL-06 (Level 4):** Replacing Teacher Monologues with Realistic Authority (Mr Lim's firm silence).
+16. **PERSP-03 (Level 2):** Supporting Character Agency: The Reluctant Accomplice (Lucas at the doorway).
+17. **PERSP-04 (Level 2):** Empathy Across Friction: The Crushed Runner (contrasting victory with defeat).
+18. **PACING-03 (Level 3):** Narrative Deceleration: The Unopened Envelope (stretching 5 seconds of tension).
+19. **PACING-04 (Level 3):** Causal Escalation: A Whispered Rumour Spreads (mutating gossip across the day).
+20. **MOTIV-02 (Level 2):** Internal Battle: Duty vs. Instant Gratification (finishing poster vs. video game mall trip).
+21. **THEME-02 (Level 3):** Costly Amends: Surrendering the Prize (Gavin returning the trophy for borrowed lines).
+22. **TAD-02 (Level 2):** TAD: Confronting a Friend by the Lockers (cutting against the departure crowd).
+23. **SHOW-02 (Level 2):** Showing Guilt Through Physical Avoidance (dinner table body language).
+24. **5W1H-02 (Level 1):** 5W1H: The Deeper Why Behind an Academic Lie (filial guilt vs. fear of punishment).
+
+### 7.2 Phrase Bank Breakdown (24 Upper Primary Phrases)
 1. *"wrestled with his conscience"* (Theme: Dilemma | FAST: Thought)
 2. *"a cold sweat prickled his neck"* (Theme: Fear/Guilt | FAST: Feeling)
 3. *"an agonizing silence descended"* (Theme: Tension | Sensory: Sound)
@@ -511,12 +528,32 @@ To prevent infinite queue replenishment loops (the "always 2 active cards" defec
 10. *"let out a ragged breath"* (Theme: Relief/Tension | FAST: Action)
 11. *"a pang of remorse tightened in his chest"* (Theme: Guilt | FAST: Feeling)
 12. *"steeled himself against the inevitable consequence"* (Theme: Resolution | FAST: Thought)
+13. *"a heavy, suffocating guilt gnawed at him"* (Theme: Guilt | FAST: Feeling)
+14. *"words caught in her throat"* (Theme: Hesitation / Remorse | FAST: Speech)
+15. *"the color drained from his face"* (Theme: Shock / Fear | FAST: Action)
+16. *"his heart sank like a stone"* (Theme: Disappointment / Dread | FAST: Feeling)
+17. *"a flicker of hesitation flashed across her eyes"* (Theme: Dilemma | FAST: Action)
+18. *"steeled his resolve and took a step forward"* (Theme: Courage | FAST: Action)
+19. *"the ticking of the wall clock sounded deafening"* (Theme: Tension / Deceleration | Sensory: Sound)
+20. *"lowered his gaze, unable to bear the scrutiny"* (Theme: Shame / Confession | FAST: Action)
+21. *"a bitter wave of regret washed over him"* (Theme: Regret | FAST: Feeling)
+22. *"the temptation whispered in the back of his mind"* (Theme: Internal Dilemma | FAST: Thought)
+23. *"forced a tremulous smile to mask her panic"* (Theme: Concealing Emotion | FAST: Action)
+24. *"the classroom held its collective breath"* (Theme: Climax Tension | Sensory: Atmosphere)
 
-### 7.3 Seed Macro Prompts Breakdown (4 P5 Transition Prompts)
+### 7.3 Macro Prompts Breakdown (6 Prompts Total)
 1. **Prompt 1:** *A Difficult Decision* (Theme: Doing the Right Thing). Witnessing a friend cheat during an exam.
 2. **Prompt 2:** *The Weight of a Secret* (Theme: Responsibility). Covering up a damaged school laptop.
 3. **Prompt 3:** *Speaking Up* (Theme: Moral Courage). Defending an unpopular student falsely accused.
 4. **Prompt 4:** *An Unintended Consequence* (Theme: Honesty). A harmless prank that goes out of hand.
+5. **Prompt 5:** *A Broken Promise* (Theme: Responsibility & Integrity). Neglecting a shared poster for online gaming.
+6. **Prompt 6:** *Standing in Someone Else's Shoes* (Theme: Empathy & Inclusion). Resisting clique mockery to welcome a transfer peer.
+
+### 7.4 Non-Destructive Content Synchronization (`syncSeedsNonDestructive`)
+When new seed content packs are deployed, existing user progress (Leitner boxes, review intervals, lapses, XP, and streaks) is preserved with zero data loss:
+- The engine fetches all existing keys via `getAllKeys()` in a single read transaction.
+- Only missing IDs are appended to `IndexedDB` as unlearned cards (`srs_box: 1, total_reviews: 0, due_date: today`).
+- Existing cards and user configurations are never overwritten or reset.
 
 ---
 
